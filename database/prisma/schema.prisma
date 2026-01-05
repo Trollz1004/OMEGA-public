@@ -1,0 +1,578 @@
+// Dating Platform Database Schema
+// Prisma schema for PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// USER & AUTHENTICATION
+// ============================================
+
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  passwordHash      String    @map("password_hash")
+  emailVerified     Boolean   @default(false) @map("email_verified")
+  emailVerifiedAt   DateTime? @map("email_verified_at")
+  phoneNumber       String?   @map("phone_number")
+  phoneVerified     Boolean   @default(false) @map("phone_verified")
+  role              UserRole  @default(USER)
+  status            UserStatus @default(PENDING)
+  lastLoginAt       DateTime? @map("last_login_at")
+  lastActiveAt      DateTime? @map("last_active_at")
+  loginCount        Int       @default(0) @map("login_count")
+  failedLoginCount  Int       @default(0) @map("failed_login_count")
+  lockedUntil       DateTime? @map("locked_until")
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+  deletedAt         DateTime? @map("deleted_at")
+
+  // Relations
+  profile           Profile?
+  subscription      Subscription?
+  sentMessages      Message[]      @relation("SentMessages")
+  receivedMessages  Message[]      @relation("ReceivedMessages")
+  matchesAsUser1    Match[]        @relation("MatchUser1")
+  matchesAsUser2    Match[]        @relation("MatchUser2")
+  likes             Like[]         @relation("LikesSent")
+  likesReceived     Like[]         @relation("LikesReceived")
+  blocks            Block[]        @relation("BlocksSent")
+  blockedBy         Block[]        @relation("BlocksReceived")
+  reports           Report[]       @relation("ReportsSent")
+  reportsReceived   Report[]       @relation("ReportsReceived")
+  notifications     Notification[]
+  sessions          Session[]
+  verificationTokens VerificationToken[]
+
+  @@map("users")
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum UserRole {
+  USER
+  MODERATOR
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  SUSPENDED
+  BANNED
+  DELETED
+}
+
+model Session {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  token       String   @unique
+  deviceInfo  String?  @map("device_info")
+  ipAddress   String?  @map("ip_address")
+  expiresAt   DateTime @map("expires_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+  @@index([userId])
+  @@index([token])
+}
+
+model VerificationToken {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  token       String   @unique
+  type        TokenType
+  expiresAt   DateTime @map("expires_at")
+  usedAt      DateTime? @map("used_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("verification_tokens")
+  @@index([token])
+}
+
+enum TokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+  PHONE_VERIFICATION
+}
+
+// ============================================
+// PROFILE
+// ============================================
+
+model Profile {
+  id                String    @id @default(uuid())
+  userId            String    @unique @map("user_id")
+  displayName       String    @map("display_name")
+  firstName         String?   @map("first_name")
+  lastName          String?   @map("last_name")
+  dateOfBirth       DateTime  @map("date_of_birth")
+  gender            Gender
+  genderPreference  Gender[]  @map("gender_preference")
+  bio               String?   @db.Text
+  headline          String?
+  occupation        String?
+  education         String?
+  height            Int?      // in centimeters
+  bodyType          BodyType? @map("body_type")
+  ethnicity         String?
+  religion          String?
+  smoking           Lifestyle?
+  drinking          Lifestyle?
+  hasChildren       Boolean?  @map("has_children")
+  wantsChildren     WantsChildren? @map("wants_children")
+  relationshipGoal  RelationshipGoal? @map("relationship_goal")
+  interests         String[]
+  languages         String[]
+
+  // Location
+  city              String?
+  state             String?
+  country           String?
+  latitude          Float?
+  longitude         Float?
+  locationVisible   Boolean   @default(true) @map("location_visible")
+
+  // Search preferences
+  minAge            Int       @default(18) @map("min_age")
+  maxAge            Int       @default(99) @map("max_age")
+  maxDistance       Int       @default(100) @map("max_distance") // in km
+
+  // Profile status
+  completeness      Int       @default(0)
+  isVerified        Boolean   @default(false) @map("is_verified")
+  verifiedAt        DateTime? @map("verified_at")
+  isVisible         Boolean   @default(true) @map("is_visible")
+  lastBoostAt       DateTime? @map("last_boost_at")
+
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photos            Photo[]
+  prompts           ProfilePrompt[]
+
+  @@map("profiles")
+  @@index([gender])
+  @@index([city, state, country])
+  @@index([isVisible, isVerified])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  NON_BINARY
+  OTHER
+}
+
+enum BodyType {
+  SLIM
+  ATHLETIC
+  AVERAGE
+  CURVY
+  PLUS_SIZE
+}
+
+enum Lifestyle {
+  NEVER
+  SOMETIMES
+  OFTEN
+  PREFER_NOT_TO_SAY
+}
+
+enum WantsChildren {
+  YES
+  NO
+  MAYBE
+  HAVE_AND_WANT_MORE
+  HAVE_AND_DONE
+}
+
+enum RelationshipGoal {
+  CASUAL
+  DATING
+  RELATIONSHIP
+  MARRIAGE
+  FRIENDSHIP
+  NOT_SURE
+}
+
+model Photo {
+  id          String    @id @default(uuid())
+  profileId   String    @map("profile_id")
+  url         String
+  thumbnailUrl String?  @map("thumbnail_url")
+  position    Int       @default(0)
+  isPrimary   Boolean   @default(false) @map("is_primary")
+  isApproved  Boolean   @default(false) @map("is_approved")
+  approvedAt  DateTime? @map("approved_at")
+  moderatedBy String?   @map("moderated_by")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  profile     Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@map("photos")
+  @@index([profileId])
+}
+
+model ProfilePrompt {
+  id          String    @id @default(uuid())
+  profileId   String    @map("profile_id")
+  promptId    String    @map("prompt_id")
+  answer      String    @db.Text
+  position    Int       @default(0)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  profile     Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  prompt      Prompt    @relation(fields: [promptId], references: [id])
+
+  @@map("profile_prompts")
+  @@unique([profileId, promptId])
+}
+
+model Prompt {
+  id          String    @id @default(uuid())
+  category    String
+  text        String
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  profilePrompts ProfilePrompt[]
+
+  @@map("prompts")
+}
+
+// ============================================
+// MATCHING
+// ============================================
+
+model Like {
+  id          String    @id @default(uuid())
+  fromUserId  String    @map("from_user_id")
+  toUserId    String    @map("to_user_id")
+  type        LikeType  @default(LIKE)
+  message     String?   // For super likes with message
+  isRead      Boolean   @default(false) @map("is_read")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  fromUser    User      @relation("LikesSent", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser      User      @relation("LikesReceived", fields: [toUserId], references: [id], onDelete: Cascade)
+
+  @@map("likes")
+  @@unique([fromUserId, toUserId])
+  @@index([toUserId, isRead])
+}
+
+enum LikeType {
+  LIKE
+  SUPER_LIKE
+  ROSE
+}
+
+model Match {
+  id          String      @id @default(uuid())
+  user1Id     String      @map("user1_id")
+  user2Id     String      @map("user2_id")
+  status      MatchStatus @default(ACTIVE)
+  matchedAt   DateTime    @default(now()) @map("matched_at")
+  expiresAt   DateTime?   @map("expires_at")
+  unmatchedAt DateTime?   @map("unmatched_at")
+  unmatchedBy String?     @map("unmatched_by")
+
+  user1       User        @relation("MatchUser1", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2       User        @relation("MatchUser2", fields: [user2Id], references: [id], onDelete: Cascade)
+  messages    Message[]
+
+  @@map("matches")
+  @@unique([user1Id, user2Id])
+  @@index([user1Id, status])
+  @@index([user2Id, status])
+}
+
+enum MatchStatus {
+  ACTIVE
+  EXPIRED
+  UNMATCHED
+}
+
+// ============================================
+// MESSAGING
+// ============================================
+
+model Message {
+  id          String        @id @default(uuid())
+  matchId     String        @map("match_id")
+  senderId    String        @map("sender_id")
+  receiverId  String        @map("receiver_id")
+  content     String        @db.Text
+  type        MessageType   @default(TEXT)
+  mediaUrl    String?       @map("media_url")
+  isRead      Boolean       @default(false) @map("is_read")
+  readAt      DateTime?     @map("read_at")
+  isEdited    Boolean       @default(false) @map("is_edited")
+  editedAt    DateTime?     @map("edited_at")
+  isDeleted   Boolean       @default(false) @map("is_deleted")
+  deletedAt   DateTime?     @map("deleted_at")
+  isFlagged   Boolean       @default(false) @map("is_flagged")
+  flaggedAt   DateTime?     @map("flagged_at")
+  flagReason  String?       @map("flag_reason")
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  match       Match         @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  sender      User          @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User          @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+  @@index([matchId, createdAt])
+  @@index([senderId])
+  @@index([receiverId, isRead])
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  GIF
+  AUDIO
+  VIDEO
+  LOCATION
+}
+
+// ============================================
+// SUBSCRIPTIONS & PAYMENTS
+// ============================================
+
+model Subscription {
+  id                String            @id @default(uuid())
+  userId            String            @unique @map("user_id")
+  planId            String            @map("plan_id")
+  status            SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart DateTime         @map("current_period_start")
+  currentPeriodEnd  DateTime          @map("current_period_end")
+  canceledAt        DateTime?         @map("canceled_at")
+  cancelReason      String?           @map("cancel_reason")
+
+  // Payment provider info
+  squareSubscriptionId String?        @unique @map("square_subscription_id")
+  squareCustomerId    String?         @map("square_customer_id")
+
+  createdAt         DateTime          @default(now()) @map("created_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan              SubscriptionPlan  @relation(fields: [planId], references: [id])
+  payments          Payment[]
+
+  @@map("subscriptions")
+  @@index([status])
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  PAUSED
+  EXPIRED
+}
+
+model SubscriptionPlan {
+  id              String    @id @default(uuid())
+  name            String
+  description     String?
+  priceMonthly    Decimal   @map("price_monthly") @db.Decimal(10, 2)
+  priceYearly     Decimal?  @map("price_yearly") @db.Decimal(10, 2)
+  features        Json      @default("[]")
+  swipesPerDay    Int       @default(-1) @map("swipes_per_day") // -1 = unlimited
+  superLikesPerDay Int      @default(0) @map("super_likes_per_day")
+  boostsPerMonth  Int       @default(0) @map("boosts_per_month")
+  seeWhoLikes     Boolean   @default(false) @map("see_who_likes")
+  readReceipts    Boolean   @default(false) @map("read_receipts")
+  incognitoMode   Boolean   @default(false) @map("incognito_mode")
+  advancedFilters Boolean   @default(false) @map("advanced_filters")
+  prioritySupport Boolean   @default(false) @map("priority_support")
+  isActive        Boolean   @default(true) @map("is_active")
+  sortOrder       Int       @default(0) @map("sort_order")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  subscriptions   Subscription[]
+
+  @@map("subscription_plans")
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  subscriptionId  String        @map("subscription_id")
+  amount          Decimal       @db.Decimal(10, 2)
+  currency        String        @default("USD")
+  status          PaymentStatus @default(PENDING)
+  paymentMethod   String?       @map("payment_method")
+
+  // Square payment info
+  squarePaymentId String?       @unique @map("square_payment_id")
+  squareOrderId   String?       @map("square_order_id")
+
+  failureReason   String?       @map("failure_reason")
+  refundedAmount  Decimal?      @map("refunded_amount") @db.Decimal(10, 2)
+  refundedAt      DateTime?     @map("refunded_at")
+
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  subscription    Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+  @@index([subscriptionId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+// ============================================
+// MODERATION & SAFETY
+// ============================================
+
+model Block {
+  id          String    @id @default(uuid())
+  blockerId   String    @map("blocker_id")
+  blockedId   String    @map("blocked_id")
+  reason      String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  blocker     User      @relation("BlocksSent", fields: [blockerId], references: [id], onDelete: Cascade)
+  blocked     User      @relation("BlocksReceived", fields: [blockedId], references: [id], onDelete: Cascade)
+
+  @@map("blocks")
+  @@unique([blockerId, blockedId])
+}
+
+model Report {
+  id          String       @id @default(uuid())
+  reporterId  String       @map("reporter_id")
+  reportedId  String       @map("reported_id")
+  type        ReportType
+  reason      String
+  details     String?      @db.Text
+  evidence    Json?        // URLs to screenshots, message IDs, etc.
+  status      ReportStatus @default(PENDING)
+  resolvedBy  String?      @map("resolved_by")
+  resolvedAt  DateTime?    @map("resolved_at")
+  resolution  String?      @db.Text
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  reporter    User         @relation("ReportsSent", fields: [reporterId], references: [id], onDelete: Cascade)
+  reported    User         @relation("ReportsReceived", fields: [reportedId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+  @@index([status])
+  @@index([reportedId])
+}
+
+enum ReportType {
+  FAKE_PROFILE
+  INAPPROPRIATE_CONTENT
+  HARASSMENT
+  SPAM
+  UNDERAGE
+  SOLICITATION
+  SCAM
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWING
+  RESOLVED
+  DISMISSED
+}
+
+// ============================================
+// NOTIFICATIONS
+// ============================================
+
+model Notification {
+  id          String           @id @default(uuid())
+  userId      String           @map("user_id")
+  type        NotificationType
+  title       String
+  message     String
+  data        Json?
+  isRead      Boolean          @default(false) @map("is_read")
+  readAt      DateTime?        @map("read_at")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+  @@index([userId, isRead])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  NEW_MATCH
+  NEW_MESSAGE
+  NEW_LIKE
+  SUPER_LIKE
+  PROFILE_VIEW
+  SUBSCRIPTION
+  SYSTEM
+  PROMOTION
+}
+
+// ============================================
+// ANALYTICS & LOGGING
+// ============================================
+
+model ActivityLog {
+  id          String    @id @default(uuid())
+  userId      String?   @map("user_id")
+  action      String
+  entityType  String?   @map("entity_type")
+  entityId    String?   @map("entity_id")
+  metadata    Json?
+  ipAddress   String?   @map("ip_address")
+  userAgent   String?   @map("user_agent")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@map("activity_logs")
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+model DailyStats {
+  id              String    @id @default(uuid())
+  date            DateTime  @unique @db.Date
+  newUsers        Int       @default(0) @map("new_users")
+  activeUsers     Int       @default(0) @map("active_users")
+  totalSwipes     Int       @default(0) @map("total_swipes")
+  totalMatches    Int       @default(0) @map("total_matches")
+  totalMessages   Int       @default(0) @map("total_messages")
+  newSubscriptions Int      @default(0) @map("new_subscriptions")
+  revenue         Decimal   @default(0) @db.Decimal(10, 2)
+  churnedUsers    Int       @default(0) @map("churned_users")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@map("daily_stats")
+  @@index([date])
+}

@@ -1,0 +1,230 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://sparkdating.com/#organization",
+      "name": "Spark Dating App",
+      "alternateName": "Spark",
+      "url": "https://sparkdating.com",
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://sparkdating.com/#logo",
+        "url": "https://sparkdating.com/images/spark-logo.png",
+        "contentUrl": "https://sparkdating.com/images/spark-logo.png",
+        "width": 512,
+        "height": 512,
+        "caption": "Spark Dating App Logo"
+      },
+      "image": {
+        "@id": "https://sparkdating.com/#logo"
+      },
+      "description": "Spark is the dating app for people who want meaningful connections. Smart compatibility matching, verified profiles, and video dating help you find someone who truly gets you.",
+      "foundingDate": "2023",
+      "slogan": "Find Love That Actually Lasts",
+      "numberOfEmployees": {
+        "@type": "QuantitativeValue",
+        "minValue": 100,
+        "maxValue": 500
+      },
+      "sameAs": [
+        "https://www.facebook.com/SparkDating",
+        "https://twitter.com/SparkDating",
+        "https://www.instagram.com/SparkDating",
+        "https://www.tiktok.com/@SparkDating",
+        "https://www.youtube.com/@SparkDating",
+        "https://www.linkedin.com/company/sparkdating"
+      ],
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+1-XXX-XXX-XXXX",
+          "contactType": "customer support",
+          "availableLanguage": ["English"],
+          "areaServed": ["US", "CA", "GB", "AU"]
+        },
+        {
+          "@type": "ContactPoint",
+          "email": "press@sparkdating.com",
+          "contactType": "press inquiries"
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San Francisco",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://sparkdating.com/#website",
+      "url": "https://sparkdating.com",
+      "name": "Spark Dating App",
+      "description": "The dating app for people who want real connections",
+      "publisher": {
+        "@id": "https://sparkdating.com/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://sparkdating.com/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://sparkdating.com/#app",
+      "name": "Spark - Dating & Relationships",
+      "alternateName": "Spark Dating App",
+      "description": "Spark is the dating app for people who want meaningful connections. Smart compatibility matching, verified profiles, and video dating help you find someone who truly gets you.",
+      "applicationCategory": "LifestyleApplication",
+      "applicationSubCategory": "Dating",
+      "operatingSystem": ["iOS", "Android"],
+      "offers": [
+        {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "description": "Free basic version"
+        },
+        {
+          "@type": "Offer",
+          "price": "29.99",
+          "priceCurrency": "USD",
+          "description": "Spark Premium monthly subscription",
+          "priceValidUntil": "2026-12-31"
+        },
+        {
+          "@type": "Offer",
+          "price": "49.99",
+          "priceCurrency": "USD",
+          "description": "Spark Premium+ monthly subscription",
+          "priceValidUntil": "2026-12-31"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "90000",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "downloadUrl": [
+        "https://apps.apple.com/app/spark-dating/idXXXXXXXXXX",
+        "https://play.google.com/store/apps/details?id=com.sparkdating.app"
+      ],
+      "screenshot": [
+        "https://sparkdating.com/images/app-screenshot-1.png",
+        "https://sparkdating.com/images/app-screenshot-2.png",
+        "https://sparkdating.com/images/app-screenshot-3.png"
+      ],
+      "featureList": [
+        "Smart Compatibility Matching",
+        "Photo Verified Profiles",
+        "In-App Video Dating",
+        "AI Conversation Starters",
+        "Date Planning Tools",
+        "Friend Zone Feature"
+      ],
+      "softwareVersion": "3.5",
+      "datePublished": "2023-01-15",
+      "creator": {
+        "@id": "https://sparkdating.com/#organization"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://sparkdating.com/#webpage",
+      "url": "https://sparkdating.com",
+      "name": "Spark - Find Love That Actually Lasts | Dating App",
+      "description": "Spark is the dating app for people who want real connections. Smart compatibility matching, verified profiles, and video dating help you find someone who truly gets you.",
+      "isPartOf": {
+        "@id": "https://sparkdating.com/#website"
+      },
+      "about": {
+        "@id": "https://sparkdating.com/#app"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://sparkdating.com/images/og-image-home.jpg"
+      },
+      "datePublished": "2023-01-15",
+      "dateModified": "2026-01-03",
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://sparkdating.com/faq/#faqpage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What makes Spark different from other dating apps?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Spark uses AI-powered compatibility matching that analyzes 50+ factors to create meaningful matches. Unlike swipe-based apps, we focus on quality over quantity. Plus, every profile is photo-verified, and you can video date before meeting in person."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Spark free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! Spark is free to download and use. You can create a profile, browse matches, and start conversations at no cost. Spark Premium ($29.99/month) unlocks additional features like seeing who likes you, unlimited rewinds, and advanced filters."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does photo verification work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "When you sign up, we ask you to take a real-time selfie matching a specific pose. Our AI compares this to your profile photos to ensure they match. Verified profiles get a blue checkmark, so you know you're talking to a real person."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Spark safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Safety is our top priority. All profiles are photo-verified, we have a 24/7 moderation team, one-tap blocking and reporting, and in-app video dating so you can verify matches before meeting in person. We also provide dating safety tips and resources."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the compatibility matching work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our algorithm analyzes over 50 compatibility factors including personality traits, values, communication styles, life goals, and lifestyle preferences. We show you a match percentage and detailed breakdown of why you're compatible with each person."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://sparkdating.com/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://sparkdating.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Features",
+          "item": "https://sparkdating.com/features"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Premium",
+          "item": "https://sparkdating.com/premium"
+        }
+      ]
+    }
+  ]
+}
