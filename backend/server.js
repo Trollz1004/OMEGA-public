@@ -104,8 +104,8 @@ app.use(cors({
     'http://localhost:5176',
     'http://localhost:5177',
     'http://192.168.0.101:8080',
-    'http://192.168.0.104:8080',
-    'http://192.168.0.104:5173',
+    'http://192.168.0.103:8080',
+    'http://192.168.0.103:5173',
     'https://jules-dashboard.pages.dev',
     'https://theoretical-bras-difference-kirk.trycloudflare.com',
     'https://api.aidoesitall.website',
@@ -240,7 +240,7 @@ app.get('/api/gospel', (req, res) => {
 // RELAY PROXY - Mobile Claude → API → Sabertooth Relay
 // ═══════════════════════════════════════════════════════════════════════════════
 // PROTECTED: Requires API key authentication (internal infrastructure communication)
-const RELAY_URL = 'http://192.168.0.104:3002';
+const RELAY_URL = 'http://192.168.0.103:3002';
 
 app.all('/api/relay/*', requireAuth, async (req, res) => {
   try {

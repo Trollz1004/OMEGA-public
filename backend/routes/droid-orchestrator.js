@@ -50,7 +50,7 @@ router.use(authMiddleware);
 
 /**
  * POST /api/droid/crosslist
- * Trigger Crosslister Droid on Sabertooth (192.168.0.104)
+ * Trigger Crosslister Droid on Sabertooth (192.168.0.103)
  * Lists excess hardware on eBay/Amazon with automatic Gospel split
  */
 router.post('/crosslist', async (req, res) => {
@@ -86,7 +86,7 @@ router.post('/crosslist', async (req, res) => {
 
     // Execute Python script on Sabertooth via SSH
     // Note: This assumes SSH keys are configured between T5500 ↔ Sabertooth
-    const sabertooth_ip = process.env.SABERTOOTH_IP || '192.168.0.104';
+    const sabertooth_ip = process.env.SABERTOOTH_IP || '192.168.0.103';
 
     // SECURITY FIX: Use sanitized inputs in SSH command
     // Original vulnerability: Unsanitized user input directly in shell command
@@ -130,7 +130,7 @@ router.get('/status', async (req, res) => {
       crosslister: {
         name: 'Crosslister Droid',
         status: 'ready',
-        location: 'Sabertooth (192.168.0.104)',
+        location: 'Sabertooth (192.168.0.103)',
         purpose: 'eBay/Amazon multi-channel sales',
         last_run: null
       },

@@ -291,7 +291,7 @@ const sampleCustomer = {
 
 **Created:** 2025-12-21
 **By:** Claude Opus 4.5
-**Node:** Sabertooth (192.168.0.104)
+**Node:** Sabertooth (192.168.0.103)
 **Tests:** ✅ 8/8 Passing
 **Ready:** Production
 
