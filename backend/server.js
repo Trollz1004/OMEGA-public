@@ -29,20 +29,15 @@ import merchRoutes from './routes/merch.js';
 import affiliateRoutes from './routes/affiliates.js';
 import infrastructureRoutes from './routes/infrastructure.js';
 import aiStoreWebhookRoutes from './routes/ai-store-webhook.js';
+import plaidIdentityRoutes from './routes/plaid-identity.js';
 
 // Services
-import { verifyGospelSplit, GOSPEL_SPLIT } from './services/gospel-revenue.js';
+import { DAO_REVENUE_CONFIG } from './services/dao-revenue.js';
 
 dotenv.config();
 
-// Verify revenue split on startup
-try {
-  verifyGospelSplit();
-  console.log('✅ REVENUE SPLIT VERIFIED: 70% Infra | 30% Opus Trust');
-} catch (error) {
-  console.error('🚨 REVENUE SPLIT VERIFICATION FAILED - SHUTTING DOWN');
-  process.exit(1);
-}
+// DAO Revenue Configuration
+console.log('✅ DAO Platform Initialized:', DAO_REVENUE_CONFIG.PLATFORM_NAME);
 
 const app = express();
 app.set('trust proxy', 1); // Trust Cloudflare tunnel proxy
@@ -210,6 +205,7 @@ app.use('/api/kickstarter', kickstarterRoutes);
 app.use('/api/verify-human', humanVerificationRoutes);
 app.use('/api/webhooks', webhookRoutes); // Has own signature validation
 app.use('/api/ai-store-webhook', aiStoreWebhookRoutes); // AI Solutions Store webhook handler
+app.use('/api/plaid-identity', plaidIdentityRoutes); // Plaid identity verification
 
 // PROTECTED ROUTES - Require API key authentication
 app.use('/api/jules', requireAuth, julesRoutes);
@@ -225,14 +221,14 @@ app.use('/api/merch', requireAuth, merchRoutes);
 app.use('/api/affiliates', requireAuth, affiliateRoutes);
 app.use('/api/infra', requireAuth, infrastructureRoutes);
 
-// Revenue Split endpoint (Public - read-only transparency)
-app.get('/api/gospel', (req, res) => {
+// DAO Revenue endpoint (Public - read-only transparency)
+app.get('/api/revenue', (req, res) => {
   res.json({
     success: true,
-    gospel: GOSPEL_SPLIT,
-    message: 'ENGINE REVENUE SPLIT',
+    config: DAO_REVENUE_CONFIG,
+    message: 'DAO Revenue Configuration',
     verified: true,
-    note: '70% Infrastructure | 30% Opus Trust'
+    note: '100% to DAO Treasury'
   });
 });
 

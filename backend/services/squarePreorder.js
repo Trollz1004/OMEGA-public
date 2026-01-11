@@ -8,14 +8,15 @@ import crypto from 'crypto';
  * - Early Bird Premium: $4.99/mo (first charge, then subscription)
  * - Royalty Cards: $1,000 one-time (Ace, King, Queen, Jack)
  *
- * FOR THE KIDS! 💛
+ * Production Mode - Live Preorders
+ * Launch: Valentine's Day 2026
  */
 
 const squareClient = new Client({
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  environment: process.env.NODE_ENV === 'production'
-    ? Environment.Production
-    : Environment.Sandbox
+  environment: process.env.SQUARE_ENVIRONMENT === 'sandbox'
+    ? Environment.Sandbox
+    : Environment.Production // Default to production
 });
 
 const { paymentsApi, subscriptionsApi, customersApi } = squareClient;
@@ -53,7 +54,7 @@ export async function getOrCreateCustomer(email, name) {
       givenName: name.split(' ')[0],
       familyName: name.split(' ').slice(1).join(' ') || '',
       referenceId: `dating-${Date.now()}`,
-      note: 'Pre-order customer - FOR THE KIDS!'
+      note: 'Pre-order customer - YouAndINotAI DAO'
     });
 
     return createResponse.result.customer;
@@ -124,7 +125,7 @@ export async function processRoyaltyCardPurchase(customerId, cardType, cardNonce
       customerId,
       locationId: process.env.SQUARE_LOCATION_ID,
       referenceId: `ROYALTY-${cardType.toUpperCase()}-${Date.now()}`,
-      note: `Royalty ${cardType} of Hearts - Founder Card - FOR THE KIDS!`,
+      note: `Royalty ${cardType} of Hearts - Founder Card - YouAndINotAI DAO`,
       statementDescriptionIdentifier: 'HEARTDAO'
     });
 
@@ -174,7 +175,7 @@ export async function getCheckoutData(type, cardType = null) {
   const baseData = {
     applicationId: process.env.SQUARE_APPLICATION_ID,
     locationId: process.env.SQUARE_LOCATION_ID,
-    environment: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox'
+    environment: process.env.SQUARE_ENVIRONMENT === 'sandbox' ? 'sandbox' : 'production'
   };
 
   if (type === 'EARLY_BIRD') {

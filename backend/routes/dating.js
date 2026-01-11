@@ -28,7 +28,7 @@ import {
   setHumanVerified,
   getUserById
 } from '../services/auth.js';
-import { calculateGospelSplit, recordTransaction, GOSPEL_SPLIT } from '../services/gospel-revenue.js';
+import { recordTransaction, DAO_REVENUE_CONFIG } from '../services/dao-revenue.js';
 
 const router = express.Router();
 
@@ -672,10 +672,9 @@ router.get('/stats', (req, res) => {
       foundingMembers: foundingMemberCount,
       foundingSpotsRemaining: MAX_FOUNDING_MEMBERS - foundingMemberCount
     },
-    mission: {
-      charityPartner: GOSPEL_SPLIT.CHARITY_NAME,
-      profitTocharity: '60%',
-      message: 'Every subscription helps kids in need.'
+    platform: {
+      name: DAO_REVENUE_CONFIG.PLATFORM_NAME,
+      type: 'Non-Charity DAO'
     }
   });
 });
