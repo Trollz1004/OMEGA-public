@@ -1,0 +1,18 @@
+name: Spawn Sub-Agents
+on: [workflow_dispatch]
+jobs:
+  sabertooth:
+    runs-on: [self-hosted, sabertooth]
+    steps:
+      - uses: actions/checkout@v4
+      - name: PM2 health
+        run: pm2 list
+      - name: Ollama health (9020 node)
+        shell: pwsh
+        run: |
+          try {
+            $r = Invoke-RestMethod http://192.168.0.103:11434/api/tags -TimeoutSec 5
+            Write-Host "Ollama OK on 9020"
+          } catch {
+            Write-Host "Ollama not responding on 9020"
+          }

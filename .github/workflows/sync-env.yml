@@ -1,0 +1,8 @@
+name: Sync Env Secrets
+on: [workflow_dispatch]
+jobs:
+  sync:
+    runs-on: [self-hosted, sabertooth]
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Env sync ready"
