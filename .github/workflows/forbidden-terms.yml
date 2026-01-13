@@ -1,0 +1,45 @@
+name: Forbidden Terms Check
+
+on:
+  push:
+    branches: [main, master, 'compliance/**']
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  scan-forbidden-terms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for forbidden terms
+        run: |
+          echo "Scanning for forbidden terms..."
+          FORBIDDEN_TERMS="60/30/10|60%/30%/10%|gospel-revenue"
+
+          # Find matches excluding certain directories
+          MATCHES=$(grep -rn --include="*.js" --include="*.ts" --include="*.tsx" --include="*.jsx" --include="*.md" \
+            -E "$FORBIDDEN_TERMS" . \
+            --exclude-dir=node_modules \
+            --exclude-dir=.git \
+            --exclude-dir=archived \
+            --exclude-dir=.claude || true)
+
+          if [ -n "$MATCHES" ]; then
+            echo "::error::Found forbidden terms in the following files:"
+            echo "$MATCHES"
+            exit 1
+          fi
+
+          echo "✅ No forbidden terms found"
+
+      - name: Verify legal documents exist
+        run: |
+          REQUIRED_FILES="TERMS_OF_SERVICE.md PRIVACY_POLICY.md"
+          for file in $REQUIRED_FILES; do
+            if [ ! -f "$file" ]; then
+              echo "::error::Missing required legal document: $file"
+              exit 1
+            fi
+          done
+          echo "✅ All required legal documents present"
