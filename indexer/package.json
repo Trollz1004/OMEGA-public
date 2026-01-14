@@ -1,0 +1,35 @@
+{
+  "name": "@forthekids/indexer",
+  "version": "1.4.1",
+  "description": "Event indexer service for tracking on-chain distributions - Gospel V1.4.1 SURVIVAL MODE",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "migrate": "ts-node src/migrate.ts",
+    "export": "ts-node src/export.ts"
+  },
+  "dependencies": {
+    "ethers": "^6.9.0",
+    "pg": "^8.11.3",
+    "express": "^4.18.2",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/express": "^4.17.21",
+    "@types/pg": "^8.10.9",
+    "@types/node-cron": "^3.0.11",
+    "@types/cors": "^2.8.17",
+    "typescript": "^5.3.2",
+    "ts-node": "^10.9.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "FOR THE KIDS Platform",
+  "license": "MIT"
+}

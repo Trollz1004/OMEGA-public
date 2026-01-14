@@ -1,37 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(netsh interface ipv4 show config:*)",
-      "Bash(netsh interface ipv4 set address:*)",
-      "Bash(git clone:*)",
-      "Bash(dir:*)",
-      "Bash(where:*)",
-      "Bash(\"C:\\\\Program Files\\\\Docker\\\\Docker\\\\resources\\\\bin\\\\docker.exe\" --version)",
-      "Bash(winget search:*)",
-      "Bash(choco search:*)",
-      "Bash(sc query:*)",
-      "Bash(tasklist:*)",
-      "Bash(wsl --list:*)",
-      "Bash(winget install:*)",
-      "Bash(findstr:*)",
-      "Bash(powershell -Command \"Get-Process -Name ''Docker Desktop'',''com.docker*'' -ErrorAction SilentlyContinue | Format-Table Name,Id\")",
-      "Bash(powershell -Command \"docker --version\")",
-      "Bash(powershell:*)",
-      "Bash(curl:*)",
+      "Bash(gh api:*)",
+      "Bash(dir \"C:\\\\Users\\\\t55o\\\\GOSPEL-V1.4.1-WORKSPACE\" /b)",
       "Bash(npm install:*)",
-      "Bash(npx prisma:*)",
-      "Bash(DATABASE_URL=\"postgresql://postgres:SparkDate2026!@localhost:5432/dating_platform\" npx prisma migrate:*)",
-      "Bash(cat:*)",
-      "Bash(\"./node_modules/.bin/vite\" build)",
-      "Bash(node -e:*)",
-      "Bash(npm run build:*)",
-      "Bash(timeout 10 node:*)",
-      "Bash(node node_modules/vite/bin/vite.js build:*)",
+      "Bash(npx hardhat compile:*)",
       "Bash(ping:*)",
-      "Bash(node --version:*)",
-      "Bash(npx serve -l 8080)",
-      "Bash(docker ps:*)",
-      "Bash(netstat:*)"
+      "Bash(powershell:*)",
+      "Bash(npx hardhat test)",
+      "Bash(tar:*)",
+      "Bash(curl:*)",
+      "Bash(ipconfig:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)"
     ]
   }
 }

@@ -1,0 +1,77 @@
+# ============================================================================
+# FOR THE KIDS Platform - Event Indexer
+# Gospel V1.4.1 SURVIVAL MODE
+# Docker Compose Configuration
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: indexer-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-indexer_password}
+      POSTGRES_DB: ${DB_NAME:-indexer}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-indexer}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Event Indexer Service
+  indexer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: indexer-service
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-indexer}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-indexer_password}
+
+      # Base RPC (configure in .env)
+      BASE_RPC_URL: ${BASE_RPC_URL:-https://mainnet.base.org}
+      BASE_WS_URL: ${BASE_WS_URL:-}
+
+      # Contract Addresses (configure in .env)
+      CHARITY_ROUTER_ADDRESS: ${CHARITY_ROUTER_ADDRESS:-}
+      DATING_ROUTER_ADDRESS: ${DATING_ROUTER_ADDRESS:-}
+
+      # Indexer Settings
+      START_BLOCK: ${START_BLOCK:-0}
+      BATCH_SIZE: ${BATCH_SIZE:-1000}
+      POLL_INTERVAL_MS: ${POLL_INTERVAL_MS:-12000}
+
+      # Server
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  default:
+    name: indexer-network
