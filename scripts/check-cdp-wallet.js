@@ -1,3 +1,4 @@
+// Credentials loaded from environment variables - see C:\Keys\MASTER-PLATFORM-ENV.env
 /**
  * Check Coinbase CDP Wallet Balance via REST API
  * Protocol Omega - Gospel V1.4.1 SURVIVAL MODE
@@ -6,9 +7,13 @@
 const crypto = require("crypto");
 const https = require("https");
 
-// Coinbase CDP API credentials
-const CDP_API_KEY_NAME = "REDACTED_CDP_KEY_ID";
-const CDP_API_KEY_SECRET = "REDACTED_CDP_SECRET";
+// Coinbase CDP API credentials from environment
+const CDP_API_KEY_NAME = process.env.CDP_API_KEY_NAME;
+const CDP_API_KEY_SECRET = process.env.CDP_API_KEY_SECRET;
+
+if (!CDP_API_KEY_NAME || !CDP_API_KEY_SECRET) {
+  throw new Error("Missing CDP credentials - set CDP_API_KEY_NAME and CDP_API_KEY_SECRET env vars");
+}
 
 // Target wallet
 const OPS_WALLET = "0xc043F5D516ee024d1dB812cb81fB64302b0Fe2B4";

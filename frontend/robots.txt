@@ -1,6 +1,5 @@
 # Robots.txt for youandinotai.com
 # The world's first 100% human-verified dating app
-# 60% of profits go to children's hospitals
 
 User-agent: *
 Allow: /

@@ -84,6 +84,13 @@ export default function RootLayout({
                     View Contract
                   </a>
                   <span>|</span>
+                  <a
+                    href="/legal"
+                    className="hover:text-ftk-primary transition-colors"
+                  >
+                    Legal &amp; Disclaimer
+                  </a>
+                  <span>|</span>
                   <span>100% Transparent</span>
                 </div>
               </div>

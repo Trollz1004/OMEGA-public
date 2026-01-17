@@ -1,3 +1,4 @@
+// Credentials loaded from environment variables - see C:\Keys\MASTER-PLATFORM-ENV.env
 /**
  * Check Coinbase Account Balance - All API Versions
  * Gospel V1.4.1 SURVIVAL MODE
@@ -6,8 +7,12 @@
 const crypto = require('crypto');
 const https = require('https');
 
-const API_KEY = 'REDACTED_CDP_KEY_ID';
-const API_SECRET = 'REDACTED_CDP_SECRET';
+const API_KEY = process.env.CDP_API_KEY_NAME;
+const API_SECRET = process.env.CDP_API_KEY_SECRET;
+
+if (!API_KEY || !API_SECRET) {
+  throw new Error("Missing CDP credentials - set CDP_API_KEY_NAME and CDP_API_KEY_SECRET env vars");
+}
 const OPS_WALLET = '0xc043F5D516ee024d1dB812cb81fB64302b0Fe2B4';
 
 function makeRequest(host, path, headers) {
