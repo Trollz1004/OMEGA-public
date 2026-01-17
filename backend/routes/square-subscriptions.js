@@ -52,7 +52,7 @@ router.post('/create-checkout', async (req, res) => {
       alternative: 'Visit ai-solutions.store for AI tools and merchandise',
       mission: '100% DAO Treasury
     },
-    support: 'admin@yourplatform.com',
+    support: 'support@youandinotai.com',
     daoRevenue: true
   });
 });

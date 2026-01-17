@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * The first 100% human-verified, zero-AI dating app.
- * 100% of profits go to verified pediatric charities (SURVIVAL MODE).
+ * YouAndINotAI DAO - Founder-Tier Platform (SURVIVAL MODE).
  *
  * Features:
  * - Human verification before matching
