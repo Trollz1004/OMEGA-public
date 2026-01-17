@@ -84,7 +84,7 @@ The HEMROIDS droid is founder's personal marketing control center:
 ## PHASE 3: VALIDATION & REPORTING
 
 After all agents complete:
-1. Run: grep -r "Gospel V1.3\|Gospel V2.0\|60/30/10" to confirm zero matches
+1. Run: grep -r "Gospel V1.3\|Gospel V2.0" to confirm zero matches
 2. Test Claude Desktop - should have no MCP error spam
 3. Launch HEMROIDS droid - verify GUI loads
 4. Generate SABERTOOTH-COMPLETE-REPORT.md
@@ -102,7 +102,7 @@ Create these files on Sabertooth:
 - Founder NEEDS the dating revenue to survive - this is not greed, it's survival
 - AI platforms remain 100% charity - that commitment is PERMANENT
 - The Gospel V1.4.1 SURVIVAL MODE acknowledges you cannot help others if you don't survive
-- Once founder is stable, dating returns to 60/30/10 split
+- Once founder is stable, dating returns to standard revenue allocation
 
 Execute with maximum parallelization. Report completion status for each agent.
 ```

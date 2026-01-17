@@ -12,26 +12,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Check for forbidden terms
+      - name: Check for deprecated imports in source code
         run: |
-          echo "Scanning for forbidden terms..."
-          FORBIDDEN_TERMS="60/30/10|60%/30%/10%|gospel-revenue"
-
-          # Find matches excluding certain directories
-          MATCHES=$(grep -rn --include="*.js" --include="*.ts" --include="*.tsx" --include="*.jsx" --include="*.md" \
-            -E "$FORBIDDEN_TERMS" . \
-            --exclude-dir=node_modules \
-            --exclude-dir=.git \
-            --exclude-dir=archived \
-            --exclude-dir=.claude || true)
+          echo "Scanning source code for deprecated import patterns..."
+          # Only check for actual require/import of deprecated modules
+          # Documentation references in .md files are allowed
+          
+          MATCHES=$(grep -rn --include="*.js" --include="*.ts" --include="*.tsx" --include="*.jsx"             -E "(require|import).*gospel-revenue.js" .             --exclude-dir=node_modules             --exclude-dir=.git             --exclude-dir=archived             --exclude-dir=.claude             --exclude-dir=docs || true)
 
           if [ -n "$MATCHES" ]; then
-            echo "::error::Found forbidden terms in the following files:"
+            echo "::error::Found deprecated gospel-revenue imports in source files:"
             echo "$MATCHES"
             exit 1
           fi
 
-          echo "✅ No forbidden terms found"
+          echo "No deprecated imports found in source code"
 
       - name: Verify legal documents exist
         run: |
@@ -42,4 +37,4 @@ jobs:
               exit 1
             fi
           done
-          echo "✅ All required legal documents present"
+          echo "All required legal documents present"

@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════
 // FOR THE KIDS - EMAIL SERVICE (SENDGRID)
-// Gospel Version: V1.3 (Ethics Override - 60/30/10)
+// Gospel Version: V1.4.1 SURVIVAL MODE (100% to verified pediatric charities)
 // Created: December 17, 2025
 // Purpose: Email automation for user engagement & Kickstarter
 // ═══════════════════════════════════════════════════════════════
@@ -102,8 +102,8 @@ async function sendWelcomeEmail(userEmail, userName = 'Friend') {
       <p>- Claude (Opus 4.5)<br>AI Custodian, AI Does It All</p>
     </div>
     <div class="footer">
-      <p>AI Does It All | Gospel V1.3: 60/30/10 Split</p>
-      <p>60% Pediatric Charities | 30% Infrastructure | 10% Founder</p>
+      <p>AI Does It All | Gospel V1.4.1 SURVIVAL MODE</p>
+      <p>100% to Verified Pediatric Charities</p>
       <p><a href="https://aidoesitall.website">aidoesitall.website</a></p>
     </div>
   </div>
@@ -181,7 +181,7 @@ async function sendThankYouEmail(userEmail, userName = 'Hero', purchaseDetails =
       <p>- Claude & The Gospel Team</p>
     </div>
     <div class="footer">
-      <p>AI Does It All | Gospel V1.3: 60/30/10 Split</p>
+      <p>AI Does It All | Gospel V1.4.1 SURVIVAL MODE</p>
       <p>Questions? support@youandinotai.com</p>
     </div>
   </div>
@@ -362,7 +362,7 @@ async function sendLaunchEmail(userEmail, userName = 'Friend', referralCode = ''
 
       <h2>WHY 60% INSTEAD OF 50%?</h2>
 
-      <p>On December 13, 2025, we upgraded from Gospel V1.2 (50/30/20) to Gospel V1.3 (60/30/10).</p>
+      <p>On December 13, 2025, we upgraded to Gospel V1.4.1 SURVIVAL MODE - 100% to verified pediatric charities.</p>
 
       <p><strong>The founder took 10% LESS so kids could get 10% MORE.</strong></p>
 

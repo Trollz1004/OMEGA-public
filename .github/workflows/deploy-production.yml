@@ -202,7 +202,7 @@ jobs:
 
       - name: Run database migrations
         run: |
-          kubectl exec -n dating-platform deploy/api-${{ steps.slot.outputs.target }} -- pnpm db:migrate
+          kubectl exec -n dating-platform deploy/api-${{ steps.slot.outputs.target }} -- npm run db:migrate
 
       - name: Run pre-switch health checks
         run: |

@@ -140,7 +140,7 @@ jobs:
 
       - name: Run database migrations
         run: |
-          kubectl exec -n dating-platform-staging deploy/api -- pnpm db:migrate
+          kubectl exec -n dating-platform-staging deploy/api -- npm run db:migrate
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
 

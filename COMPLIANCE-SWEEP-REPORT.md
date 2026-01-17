@@ -29,7 +29,7 @@
 |----------|-------|
 | Files with Gospel V1.3 | 50+ |
 | Files with Gospel V2.0 | 10+ |
-| Files with 60/30/10 | 100+ |
+| Files with deprecated split references | 100+ |
 | Files with St. Jude | 15+ |
 
 ### Priority Files (Marketing/Public-Facing)
@@ -70,7 +70,7 @@
 | Gospel V1.3 | Gospel V1.4.1 SURVIVAL MODE |
 | Gospel V2.0 | Gospel V1.4.1 SURVIVAL MODE |
 | Gospel v2.0 | Gospel V1.4.1 SURVIVAL MODE |
-| 60/30/10 split (charity context) | 100% to verified pediatric charities |
+| Deprecated split references (charity context) | 100% to verified pediatric charities |
 | St. Jude | verified pediatric charities |
 | Shriners | verified pediatric charities |
 
@@ -85,7 +85,7 @@
 ### Dating App (YouAndINotAI)
 - **Allocation:** 100% to founder
 - **Status:** TEMPORARY (survival mode)
-- **Future:** 60/30/10 after bills paid
+- **Future:** Standard revenue allocation after bills paid
 
 ---
 

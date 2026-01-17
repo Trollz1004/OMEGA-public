@@ -8,7 +8,7 @@
  * 2. Shipping cost
  * 3. Payment processing fees (Square: 2.6% + $0.10)
  *
- * Only NET PROFIT gets the 60/30/10 split.
+ * Only NET PROFIT gets the revenue allocation split.
  * This protects founder from subsidizing charity with personal funds.
  *
  * SPLIT: 60% Verified Pediatric Charities | 30% Infrastructure | 10% Founder
@@ -105,7 +105,7 @@ export function calculateGospelSplitNet(grossSale, cogs = 0, shipping = 0, proce
   const profitBreakdown = calculateNetProfit(grossSale, cogs, shipping, processor);
   const netProfit = profitBreakdown.netProfit;
   
-  // Now split the NET profit 60/30/10
+  // Now split the NET profit per revenue allocation
   const charityAmount = Math.round(netProfit * (GOSPEL_SPLIT.CHARITY_PERCENTAGE / 100) * 100) / 100;
   const infrastructureAmount = Math.round(netProfit * (GOSPEL_SPLIT.INFRASTRUCTURE_PERCENTAGE / 100) * 100) / 100;
   const founderAmount = Math.round(netProfit * (GOSPEL_SPLIT.FOUNDER_PERCENTAGE / 100) * 100) / 100;

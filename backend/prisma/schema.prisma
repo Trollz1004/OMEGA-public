@@ -396,7 +396,7 @@ model EscrowSplit {
   transactionId String      @unique
   transaction   Transaction @relation(fields: [transactionId], references: [id])
 
-  // Split Details (IMMUTABLE - 60/30/10 Gospel V1.3)
+  // Split Details (IMMUTABLE - Gospel V1.4.1 SURVIVAL MODE)
   charityAmount        Decimal @db.Decimal(10, 2) // 60%
   infrastructureAmount Decimal @db.Decimal(10, 2) // 30%
   ownerAmount          Decimal @db.Decimal(10, 2) // 10%

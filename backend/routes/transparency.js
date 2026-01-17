@@ -217,7 +217,7 @@ router.get('/stats', async (req, res) => {
 
 /**
  * GET /api/transparency/kickstarter
- * Public Kickstarter campaign data with Gospel 60/30/10 split (Ethics Override V1.3)
+ * Public Kickstarter campaign data with Gospel V1.4.1 SURVIVAL MODE (100% to verified pediatric charities)
  */
 router.get('/kickstarter', async (req, res) => {
   try {

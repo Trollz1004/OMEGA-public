@@ -1,6 +1,6 @@
 /**
  * Square Payment Webhooks Handler
- * Automatically executes 60/30/10 Profit Allocation (Ethics Override V1.3) to:
+ * Automatically executes Profit Allocation (Gospel V1.4.1 SURVIVAL MODE) to:
  * - 60% → Verified Pediatric Charities (charity@yourplatform.com)
  * - 30% → Infrastructure (admin@yourplatform.com)
  * - 10% → Founder (admin@yourplatform.com)
@@ -71,8 +71,8 @@ function validateWebhookSecrets() {
       '',
       'WHY THIS IS CRITICAL:',
       '- Without webhook secrets, attackers can send fake payment webhooks',
-      '- This could trigger unauthorized 60/30/10 profit allocations',
-      '- Could result in fraudulent charity donations (Gospel V1.3 violation)',
+      '- This could trigger unauthorized profit allocations',
+      '- Could result in fraudulent charity donations (Gospel violation)',
       '',
       'REQUIRED ACTION:',
       '1. Configure the following in your .env file:',
@@ -142,13 +142,13 @@ function calculateAllocationHash(transactionId, grossAmount, splits, previousHas
 }
 
 /**
- * Execute 60/30/10 Profit Allocation via Square
- * Gospel Rule #2 - IMMUTABLE SPLIT (Ethics Override V1.3)
+ * Execute Profit Allocation via Square
+ * Gospel Rule #2 - IMMUTABLE SPLIT (Gospel V1.4.1 SURVIVAL MODE)
  */
 async function executeProfitAllocation(payment, transaction, previousHash) {
   const grossAmount = parseFloat(payment.amount_money.amount) / 100; // Square uses cents
 
-  // Calculate immutable split (60/30/10) - GOSPEL RULE #2 - Ethics Override V1.3
+  // Calculate immutable split - GOSPEL RULE #2 - Gospel V1.4.1 SURVIVAL MODE
   const splits = {
     charityAmount: (grossAmount * 0.60).toFixed(2),
     infrastructureAmount: (grossAmount * 0.30).toFixed(2),

@@ -145,7 +145,7 @@ router.get('/status', async (req, res) => {
         name: 'Gospel Auditor',
         status: 'active',
         location: 'T5500 (API)',
-        purpose: '60/30/10 split verification',
+        purpose: 'Revenue allocation verification',
         last_run: new Date().toISOString()
       },
       jules_ai: {

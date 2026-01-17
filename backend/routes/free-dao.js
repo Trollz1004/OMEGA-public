@@ -11,7 +11,7 @@
  * - Self-hosted, no blockchain fees
  * - Community governance
  *
- * GOSPEL ALIGNED: This is ADDITIONAL to the 60/30/10 split.
+ * GOSPEL ALIGNED: This is ADDITIONAL to the standard revenue allocation.
  * The FREE DAO is a separate pool for community-directed giving.
  *
  * Created by Claude (Opus) on SABERTOOTH - December 3, 2025

@@ -14,7 +14,7 @@ Every Claude instance working on FOR THE KIDS Platform projects MUST follow thes
 
 ### SURVIVAL MODE STATUS: ACTIVE
 - **Effective Until:** Founder's essential bills are paid
-- **Target Transition:** Return to 60/30/10 after financial stability
+- **Target Transition:** Return to standard revenue allocation after financial stability
 
 ### Current Allocations:
 
@@ -91,7 +91,7 @@ C:\Keys\MASTER-PLATFORM-ENV.env
 |------------|-------------|
 | Gospel V1.3 | Gospel V1.4.1 SURVIVAL MODE |
 | Gospel V2.0 | Gospel V1.4.1 SURVIVAL MODE |
-| 60/30/10 split (charity context) | 100% to verified pediatric charities |
+| Deprecated split references (charity context) | 100% to verified pediatric charities |
 | St. Jude (or specific names) | verified pediatric charities |
 | Hardcoded percentage splits | 100% charity allocation |
 

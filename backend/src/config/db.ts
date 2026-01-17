@@ -2,7 +2,7 @@
  * Database Configuration - PRODUCTION ONLY
  * FOR THE KIDS - No mock data fallbacks
  *
- * GOSPEL V1.3: 60/30/10
+ * GOSPEL V1.4.1 SURVIVAL MODE
  */
 
 import { PrismaClient } from '@prisma/client';

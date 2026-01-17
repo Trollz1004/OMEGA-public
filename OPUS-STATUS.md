@@ -49,11 +49,11 @@ NEVER print secret values to console or logs.
 | Repo | Type | Revenue Model | Domain |
 |------|------|---------------|--------|
 | **AiCollabForTheKids** | 100% CHARITY | All revenue to verified pediatric charities | aidoesitall.website |
-| **OPUStrustForTheKidsPlatform** | FOR-PROFIT | 100% Founder (survival mode) then 60/30/10 | youandinotai.com |
+| **OPUStrustForTheKidsPlatform** | FOR-PROFIT | SURVIVAL MODE (100% founder) then standard allocation | youandinotai.com |
 
 ### Survival Mode Status
 - **AI Platforms:** 100% to verified pediatric charities (permanent)
-- **Dating App:** 100% to founder (temporary until bills paid, then 60/30/10)
+- **Dating App:** SURVIVAL MODE (100% founder) - temporary until bills paid, then standard allocation
 
 ### Messaging Rules (ENFORCED)
 - **CHARITY REPOS:** "100% to verified pediatric charities" - NEVER "60%"

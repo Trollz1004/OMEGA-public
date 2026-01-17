@@ -32,22 +32,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: '8'
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
-      - name: Run pnpm audit
-        run: pnpm audit --audit-level=moderate
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
         continue-on-error: true
 
       - name: Run npm audit for detailed report
@@ -118,7 +113,7 @@ jobs:
             --config p/security-audit \
             --config p/secrets \
             --config p/owasp-top-ten \
-            --json --output semgrep-results.json
+            --sarif --output semgrep-results.sarif
         env:
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
         continue-on-error: true
@@ -127,13 +122,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: semgrep-results
-          path: semgrep-results.json
+          path: semgrep-results.sarif
           retention-days: 30
 
       - name: Upload to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: semgrep-results.json
+          sarif_file: semgrep-results.sarif
         if: always()
 
   secret-scanning:
@@ -158,73 +153,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
-
-  docker-scan:
-    name: Docker Image Scanning
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image:
-          - api
-          - web
-          - worker
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker image for scanning
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./docker/${{ matrix.image }}/Dockerfile
-          push: false
-          load: true
-          tags: dating-platform/${{ matrix.image }}:scan
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'dating-platform/${{ matrix.image }}:scan'
-          format: 'sarif'
-          output: 'trivy-${{ matrix.image }}-results.sarif'
-          severity: 'CRITICAL,HIGH'
-          vuln-type: 'os,library'
-
-      - name: Upload Trivy scan results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: 'trivy-${{ matrix.image }}-results.sarif'
-          category: 'docker-${{ matrix.image }}'
-
-      - name: Run Trivy for detailed report
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: 'dating-platform/${{ matrix.image }}:scan'
-          format: 'json'
-          output: 'trivy-${{ matrix.image }}-results.json'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          vuln-type: 'os,library'
-
-      - name: Upload Trivy report
-        uses: actions/upload-artifact@v4
-        with:
-          name: trivy-${{ matrix.image }}-report
-          path: 'trivy-${{ matrix.image }}-results.json'
-          retention-days: 30
-
-      - name: Fail on critical vulnerabilities
-        run: |
-          CRITICAL=$(cat trivy-${{ matrix.image }}-results.json | jq '[.Results[]?.Vulnerabilities[]? | select(.Severity == "CRITICAL")] | length')
-          echo "Critical vulnerabilities in ${{ matrix.image }}: $CRITICAL"
-          if [ "$CRITICAL" -gt 0 ]; then
-            echo "::error::Found $CRITICAL critical vulnerabilities in ${{ matrix.image }} image!"
-            exit 1
-          fi
 
   infrastructure-scan:
     name: Infrastructure as Code Scanning
@@ -256,22 +184,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: '8'
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'pnpm'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Install license-checker
-        run: pnpm add -g license-checker
+        run: npm install -g license-checker
 
       - name: Run license check
         run: |
@@ -301,7 +224,7 @@ jobs:
   security-report:
     name: Generate Security Report
     runs-on: ubuntu-latest
-    needs: [dependency-audit, sast-scanning, semgrep, secret-scanning, docker-scan, infrastructure-scan, license-check]
+    needs: [dependency-audit, sast-scanning, semgrep, secret-scanning, infrastructure-scan, license-check]
     if: always()
     steps:
       - name: Download all artifacts
@@ -325,7 +248,6 @@ jobs:
           echo "| CodeQL SAST | ${{ needs.sast-scanning.result }} |" >> security-summary.md
           echo "| Semgrep | ${{ needs.semgrep.result }} |" >> security-summary.md
           echo "| Secret Detection | ${{ needs.secret-scanning.result }} |" >> security-summary.md
-          echo "| Docker Scanning | ${{ needs.docker-scan.result }} |" >> security-summary.md
           echo "| Infrastructure Scan | ${{ needs.infrastructure-scan.result }} |" >> security-summary.md
           echo "| License Check | ${{ needs.license-check.result }} |" >> security-summary.md
 

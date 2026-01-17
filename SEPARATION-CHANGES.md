@@ -10,7 +10,7 @@ This document tracks the separation of the dating platform from the charity plat
 ### 1. Revenue Service
 - ✅ Created `backend/services/dao-revenue.js` - Standard DAO revenue management
 - ✅ Created `C:\AiCollabForTheKids\api\services\dao-revenue.js` - API directory version
-- ⚠️ Need to update all imports from `gospel-revenue.js` to `dao-revenue.js`
+- Need to update all imports from legacy revenue service to `dao-revenue.js`
 
 ### 2. Server Files
 - ✅ Updated `backend/server.js` - Removed gospel split verification
@@ -26,7 +26,7 @@ This document tracks the separation of the dating platform from the charity plat
 ## Changes Still Needed
 
 ### High Priority
-1. **Update all route files** that import `gospel-revenue.js`:
+1. **Update all route files** that import legacy revenue service:
    - `backend/routes/square-subscriptions.js`
    - `backend/routes/merch.js`
    - `backend/routes/dating.js`
@@ -81,7 +81,7 @@ SQUARE_ENVIRONMENT=production
 ```
 
 ## Testing Checklist
-- [ ] All routes work without gospel-revenue imports
+- [ ] All routes work without legacy revenue imports
 - [ ] Payment processing uses production Square
 - [ ] No charity references in API responses
 - [ ] Preorder system functional
