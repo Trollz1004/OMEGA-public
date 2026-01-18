@@ -747,8 +747,8 @@
 
     <!-- Pre-Order Banner -->
     <div class="preorder-banner">
-        <h2>🎉 PRE-ORDER NOW: <span class="price-strike">$9.99/mo</span> <span class="price-new">$4.99/mo</span></h2>
-        <span class="forever">$5 OFF FOR LIFE — 100 Verified Early Supporters Only</span>
+        <h2>🎉 PRE-ORDER NOW: <span class="price-strike">$29.99/mo</span> <span class="price-new">$14.99/mo</span></h2>
+        <span class="forever">LOCKED FOR LIFE — 100 Founding Members Only</span>
     </div>
 
     <!-- Hero Section -->
@@ -892,15 +892,15 @@
 
         <div class="preorder-options">
             <div class="preorder-option">
-                <h3 class="option-title">Early Bird Premium</h3>
-                <div class="option-price">$4.99/mo</div>
-                <div class="option-original">$9.99/mo</div>
-                <div class="option-savings">SAVE $5/mo FOR LIFE</div>
+                <h3 class="option-title">Founding Member</h3>
+                <div class="option-price">$14.99/mo</div>
+                <div class="option-original">$29.99/mo</div>
+                <div class="option-savings">SAVE 50% FOR LIFE</div>
                 <ul class="option-features">
-                    <li>$5 off monthly — locked in forever</li>
+                    <li>Price locked forever (never increases)</li>
                     <li>Premium features at launch</li>
                     <li>Entry into Joker drawing</li>
-                    <li>Early access badge</li>
+                    <li>Founding Member badge</li>
                     <li>First 100 verified only</li>
                 </ul>
                 <button class="preorder-btn" onclick="preorderPremium()">Pre-Order Now</button>
@@ -977,15 +977,15 @@
 
         // Pre-order functions
         function preorderPremium() {
-            // Integrate with Square payment
-            alert('Redirecting to secure payment...\n\nPre-order: Early Bird Premium\nPrice: $4.99/mo (locked for life)\n\nYour transaction ID will be entered into the Joker drawing!');
-            // window.location.href = '/checkout/premium';
+            const subject = encodeURIComponent("Pre-order: Founding Member ($14.99/mo)");
+            const body = encodeURIComponent("I would like to secure my Founding Member spot for $14.99/mo (locked for life).\n\nPlease send me the payment link.\n\nName:\nEmail:");
+            window.location.href = `mailto:sales@youandinotai.com?subject=${subject}&body=${body}`;
         }
 
         function preorderRoyalty() {
-            // Integrate with Square payment
-            alert('Redirecting to secure payment...\n\nRoyalty Founder Card: $1,000\nChoose your card after payment.\n\nOnly 4 available. This is your moment.');
-            // window.location.href = '/checkout/royalty';
+            const subject = encodeURIComponent("Royalty Founder Card Inquiry ($1,000)");
+            const body = encodeURIComponent("I am interested in claiming a Royalty Founder Card (Ace/King/Queen/Jack) for $1,000.\n\nPlease send me availability and payment instructions.\n\nName:\nPreferred Card:");
+            window.location.href = `mailto:founders@youandinotai.com?subject=${subject}&body=${body}`;
         }
     </script>
 </body>
