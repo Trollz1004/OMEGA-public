@@ -608,7 +608,7 @@ router.get('/founding-members/status', (req, res) => {
     price: 14.99,
     regularPrice: 19.99,
     discount: '20% off for life',
-    mission: '100% of profits go to verified pediatric charities'
+    mission: 'Building authentic human connections'
   });
 });
 
