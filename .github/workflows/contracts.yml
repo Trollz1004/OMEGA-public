@@ -1,0 +1,285 @@
+# FOR THE KIDS Platform - Smart Contract CI/CD
+# Gospel V1.4.1 SURVIVAL MODE
+#
+# This workflow runs on push to main and pull requests:
+# - Installs dependencies and compiles contracts
+# - Runs comprehensive test suite
+# - Performs Slither static analysis
+# - Generates gas usage report
+# - Blocks merge if tests fail or critical vulnerabilities found
+#
+# "Until no kid is in need"
+
+name: Smart Contract CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'contracts/**'
+      - 'scripts/**'
+      - 'hardhat.config.ts'
+      - 'package.json'
+      - '.github/workflows/contracts.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'contracts/**'
+      - 'scripts/**'
+      - 'hardhat.config.ts'
+      - 'package.json'
+      - '.github/workflows/contracts.yml'
+
+env:
+  NODE_VERSION: '18'
+  SOLC_VERSION: '0.8.20'
+
+jobs:
+  # ============================================
+  # Compile and Test
+  # ============================================
+  test:
+    name: Compile & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      - name: Run tests
+        run: npx hardhat test
+        env:
+          REPORT_GAS: true
+
+      - name: Generate coverage report
+        run: npx hardhat coverage
+        continue-on-error: true
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+        continue-on-error: true
+
+  # ============================================
+  # Gas Report
+  # ============================================
+  gas-report:
+    name: Gas Usage Report
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests with gas reporter
+        run: npx hardhat test
+        env:
+          REPORT_GAS: true
+
+      - name: Save gas report
+        run: |
+          echo "# Gas Usage Report" > gas-report.md
+          echo "Generated: $(date -u)" >> gas-report.md
+          echo "" >> gas-report.md
+          echo "## FOR THE KIDS Platform - Gospel V1.4.1 SURVIVAL MODE" >> gas-report.md
+          echo "" >> gas-report.md
+          if [ -f "gas-report.txt" ]; then
+            cat gas-report.txt >> gas-report.md
+          fi
+
+      - name: Upload gas report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gas-report
+          path: gas-report.md
+          retention-days: 30
+
+  # ============================================
+  # Slither Static Analysis
+  # ============================================
+  slither:
+    name: Slither Security Analysis
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Slither
+        run: |
+          pip install slither-analyzer
+          pip install solc-select
+          solc-select install ${{ env.SOLC_VERSION }}
+          solc-select use ${{ env.SOLC_VERSION }}
+
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      - name: Run Slither analysis
+        id: slither
+        run: |
+          # Run slither and capture output
+          set +e
+          slither . --json slither-results.json --exclude-dependencies 2>&1 | tee slither-output.txt
+          SLITHER_EXIT=$?
+          set -e
+
+          # Parse results for critical findings
+          echo "## Slither Analysis Results" > slither-report.md
+          echo "Generated: $(date -u)" >> slither-report.md
+          echo "" >> slither-report.md
+
+          # Check for high/critical severity issues
+          if [ -f "slither-results.json" ]; then
+            HIGH_COUNT=$(jq '[.results.detectors[] | select(.impact == "High")] | length' slither-results.json 2>/dev/null || echo "0")
+            CRITICAL_COUNT=$(jq '[.results.detectors[] | select(.impact == "Critical")] | length' slither-results.json 2>/dev/null || echo "0")
+
+            echo "### Summary" >> slither-report.md
+            echo "- Critical Issues: $CRITICAL_COUNT" >> slither-report.md
+            echo "- High Issues: $HIGH_COUNT" >> slither-report.md
+            echo "" >> slither-report.md
+
+            if [ "$HIGH_COUNT" -gt 0 ] || [ "$CRITICAL_COUNT" -gt 0 ]; then
+              echo "### Critical/High Findings" >> slither-report.md
+              jq -r '.results.detectors[] | select(.impact == "High" or .impact == "Critical") | "- [\(.impact)] \(.check): \(.description)"' slither-results.json >> slither-report.md 2>/dev/null || true
+              echo "" >> slither-report.md
+
+              # Set output for failure condition
+              echo "critical_findings=true" >> $GITHUB_OUTPUT
+            else
+              echo "No critical or high severity issues found." >> slither-report.md
+              echo "critical_findings=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "Slither analysis completed but no JSON results found." >> slither-report.md
+            echo "critical_findings=false" >> $GITHUB_OUTPUT
+          fi
+
+          cat slither-output.txt >> slither-report.md
+        continue-on-error: true
+
+      - name: Upload Slither report
+        uses: actions/upload-artifact@v4
+        with:
+          name: slither-report
+          path: |
+            slither-report.md
+            slither-results.json
+          retention-days: 30
+
+      - name: Check for critical findings
+        if: steps.slither.outputs.critical_findings == 'true'
+        run: |
+          echo "::error::Critical or high severity vulnerabilities found by Slither!"
+          echo "Review the slither-report artifact for details."
+          exit 1
+
+  # ============================================
+  # Generate Artifacts
+  # ============================================
+  artifacts:
+    name: Generate Contract Artifacts
+    runs-on: ubuntu-latest
+    needs: [test, slither]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      - name: Generate ABI artifacts
+        run: npx ts-node scripts/generate-artifacts.ts
+
+      - name: Upload ABI artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-abis
+          path: dao/contracts/abi/
+          retention-days: 90
+
+  # ============================================
+  # Summary Job
+  # ============================================
+  summary:
+    name: CI Summary
+    runs-on: ubuntu-latest
+    needs: [test, gas-report, slither]
+    if: always()
+
+    steps:
+      - name: Check job results
+        run: |
+          echo "## FOR THE KIDS Platform - CI/CD Summary"
+          echo "Gospel V1.4.1 SURVIVAL MODE"
+          echo ""
+          echo "### Job Results:"
+          echo "- Test: ${{ needs.test.result }}"
+          echo "- Gas Report: ${{ needs.gas-report.result }}"
+          echo "- Slither: ${{ needs.slither.result }}"
+          echo ""
+          echo '"Until no kid is in need"'
+
+          # Fail if critical jobs failed
+          if [ "${{ needs.test.result }}" != "success" ]; then
+            echo "::error::Tests failed!"
+            exit 1
+          fi
+
+          if [ "${{ needs.slither.result }}" == "failure" ]; then
+            echo "::error::Slither analysis found critical issues!"
+            exit 1
+          fi

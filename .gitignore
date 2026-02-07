@@ -1,4 +1,40 @@
+# FOR THE KIDS Platform Artifacts
 
-ops/master.env
-memory/.gemini_status.md
+# Dependencies
+node_modules/
+
+# Build artifacts
+artifacts/
+cache/
+typechain-types/
+
+# Environment files
 .env
+.env.local
+.env.production
+*.env
+
+# Archives
+*.tar.gz
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+nul
+
+# IDE
+.idea/
+*.swp
+Claude Setup.exe
+
+# Claude Code conversation logs (may contain credentials)
+.claude/projects/
+.claude/*.jsonl
+
+# MCP config files with credentials
+MCP-FIX-COMMANDS.txt
+**/mcp.json
+
+# Deployment scripts (credentials should be env vars)
+# deploy.ps1 files kept but tokens must be env vars

@@ -1,0 +1,37 @@
+[
+  {
+    "content": "Set static IP to 192.168.0.105",
+    "status": "in_progress",
+    "activeForm": "Setting static IP to 192.168.0.105"
+  },
+  {
+    "content": "Install Ollama and FFmpeg via winget",
+    "status": "pending",
+    "activeForm": "Installing Ollama and FFmpeg"
+  },
+  {
+    "content": "Clone AiCollabForTheKids repo",
+    "status": "pending",
+    "activeForm": "Cloning repository"
+  },
+  {
+    "content": "Pull Ollama models (llama3.1:8b, mistral:7b, nomic-embed-text)",
+    "status": "pending",
+    "activeForm": "Pulling Ollama models"
+  },
+  {
+    "content": "Install PM2 globally",
+    "status": "pending",
+    "activeForm": "Installing PM2"
+  },
+  {
+    "content": "Create deploy-workhorse.bat script",
+    "status": "pending",
+    "activeForm": "Creating deployment script"
+  },
+  {
+    "content": "Report completion",
+    "status": "pending",
+    "activeForm": "Reporting completion"
+  }
+]

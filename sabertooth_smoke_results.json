@@ -1,0 +1,5 @@
+{
+    "gui":  "Unable to connect to the remote server",
+    "api":  "Unable to connect to the remote server",
+    "ollama":  "Unable to connect to the remote server"
+}

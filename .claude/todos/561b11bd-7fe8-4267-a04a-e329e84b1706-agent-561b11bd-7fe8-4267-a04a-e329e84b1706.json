@@ -1,0 +1,57 @@
+[
+  {
+    "content": "Pull existing date app repo from AWS",
+    "status": "completed",
+    "activeForm": "Pulling existing date app repo"
+  },
+  {
+    "content": "Analyze existing repo structure",
+    "status": "completed",
+    "activeForm": "Analyzing existing repo structure"
+  },
+  {
+    "content": "Create .env configuration",
+    "status": "completed",
+    "activeForm": "Creating .env configuration"
+  },
+  {
+    "content": "Install/verify Docker Desktop",
+    "status": "in_progress",
+    "activeForm": "Installing Docker Desktop"
+  },
+  {
+    "content": "Add Ollama + AI services to docker-compose",
+    "status": "in_progress",
+    "activeForm": "Adding Ollama to docker-compose"
+  },
+  {
+    "content": "Pull and run Llama model on GPU",
+    "status": "pending",
+    "activeForm": "Pulling Llama model"
+  },
+  {
+    "content": "Start all Docker containers",
+    "status": "pending",
+    "activeForm": "Starting Docker containers"
+  },
+  {
+    "content": "Run database migrations",
+    "status": "pending",
+    "activeForm": "Running database migrations"
+  },
+  {
+    "content": "Test app locally on port 8080",
+    "status": "pending",
+    "activeForm": "Testing app locally"
+  },
+  {
+    "content": "Configure marketing landing page",
+    "status": "pending",
+    "activeForm": "Configuring marketing page"
+  },
+  {
+    "content": "Set up continuous automation",
+    "status": "pending",
+    "activeForm": "Setting up automation"
+  }
+]

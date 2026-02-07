@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 Secure Checkout | Royalty Hearts Pre-Order</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #FFD700;
+            --royal-red: #DC143C;
+            --black: #0a0a0a;
+            --white: #fff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .checkout-container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .checkout-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .product-summary {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 2px solid var(--gold);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .product-price span {
+            font-size: 1rem;
+            color: #888;
+        }
+
+        .benefits-list {
+            list-style: none;
+        }
+
+        .benefits-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ccc;
+        }
+
+        .benefits-list li::before {
+            content: '♥';
+            color: var(--royal-red);
+        }
+
+        .payment-form {
+            background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 2px solid var(--royal-red);
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: #0d0d0d;
+            color: var(--white);
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        #card-container {
+            min-height: 100px;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: #0d0d0d;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--gold), #FFA500);
+            border: none;
+            border-radius: 50px;
+            color: var(--black);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .security-note {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .security-note span {
+            color: #4CAF50;
+        }
+
+        .joker-entry {
+            background: rgba(148, 0, 211, 0.2);
+            border: 1px solid #9400D3;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .joker-entry p {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .joker-entry strong {
+            color: var(--gold);
+        }
+
+        .error-message {
+            background: rgba(220, 20, 60, 0.2);
+            border: 1px solid var(--royal-red);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .success-message h2 {
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .success-message .transaction-id {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .card-type-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-option {
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card-option:hover {
+            border-color: var(--gold);
+        }
+
+        .card-option.selected {
+            border-color: var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .card-option.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .card-option .symbol {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1>💕 Secure Checkout</h1>
+            <p>Pre-Order — Launches Valentine's Day 2026</p>
+        </div>
+
+        <div id="checkout-form">
+            <div class="product-summary" id="product-summary">
+                <!-- Populated by JS -->
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+
+            <!-- Card Type Selector (for Royalty purchase) -->
+            <div class="card-type-selector" id="card-selector" style="display: none;">
+                <div class="card-option" data-card="ACE">
+                    <div class="symbol">🂱</div>
+                    <div>Ace</div>
+                </div>
+                <div class="card-option" data-card="KING">
+                    <div class="symbol">🂾</div>
+                    <div>King</div>
+                </div>
+                <div class="card-option" data-card="QUEEN">
+                    <div class="symbol">🂽</div>
+                    <div>Queen</div>
+                </div>
+                <div class="card-option" data-card="JACK">
+                    <div class="symbol">🂻</div>
+                    <div>Jack</div>
+                </div>
+            </div>
+
+            <form class="payment-form" id="payment-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" required placeholder="Your name">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label>Card Details</label>
+                    <div id="card-container"></div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">
+                    Complete Pre-Order
+                </button>
+            </form>
+
+            <div class="joker-entry">
+                <p>🃏 Your transaction ID will be entered into the <strong>Joker Drawing</strong> on Valentine's Day!</p>
+            </div>
+
+            <p class="security-note">
+                <span>🔒</span> Secured by Square Payments — 256-bit encryption
+            </p>
+        </div>
+
+        <div class="success-message" id="success-message">
+            <h2>🎉 Pre-Order Confirmed!</h2>
+            <p>Thank you for joining the Royalty Hearts family!</p>
+            <div class="transaction-id" id="transaction-id"></div>
+            <p>Save this Transaction ID — it's your entry into the Joker Drawing!</p>
+        </div>
+    </div>
+
+    <style>
+        /* ... existing styles ... */
+        #google-pay-button {
+            height: 48px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <!-- ... header ... -->
+
+        <div id="checkout-form">
+            <div class="product-summary" id="product-summary">
+                <!-- Populated by JS -->
+            </div>
+
+            <div class="error-message" id="error-message"></div>
+
+            <!-- Card Type Selector ... -->
+
+            <!-- Google Pay Button -->
+            <div id="google-pay-button"></div>
+            <div style="text-align: center; margin: 10px 0; color: #666;">- OR -</div>
+
+            <form class="payment-form" id="payment-form">
+                <!-- ... existing form fields ... -->
+            </form>
+            <!-- ... -->
+    </div>
+
+    <!-- Square Web Payments SDK -->
+    <script src="https://web.squarecdn.com/v1/square.js"></script>
+
+    <script>
+        // Configuration - Production Location ID from OPUS-STATUS
+        const CONFIG = {
+            applicationId: 'sq0idp-YOUR_APP_ID_HERE', // TODO: User to provide App ID
+            locationId: 'LYMXB8C26NYP7', 
+        };
+
+        // Get checkout type from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const checkoutType = urlParams.get('type') || 'founding-member';
+        let selectedCard = null;
+
+        // Product data
+        const products = {
+            'founding-member': {
+                name: 'Founding Member Premium',
+                price: '$14.99/mo',
+                amount: '14.99',
+                benefits: [
+                    'Price LOCKED for life (Save 50%)',
+                    'Premium features on Valentine\'s Day launch',
+                    'Entry into Joker drawing',
+                    'Founding Member badge on profile'
+                ]
+            },
+            'royalty': {
+                name: 'Royalty Founder Card',
+                price: '$1,000',
+                amount: '1000.00',
+                benefits: [
+                    'Choose: Ace, King, Queen, or Jack',
+                    'Unique animated card border',
+                    'Premium FREE FOR LIFE',
+                    'UNLIMITED Super Likes forever',
+                    'Entry into Joker drawing'
+                ]
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            const product = products[checkoutType] || products['founding-member'];
+
+            // Render product summary
+            document.getElementById('product-summary').innerHTML = `
+                <div class="product-name">${product.name}</div>
+                <div class="product-price">${product.price} ${checkoutType === 'founding-member' ? '<span>for life</span>' : '<span>one-time</span>'}</div>
+                <ul class="benefits-list">
+                    ${product.benefits.map(b => `<li>${b}</li>`).join('')}
+                </ul>
+            `;
+
+            // Initialize Square
+            await initializeSquare(product);
+        });
+
+        async function initializeSquare(product) {
+            if (!Window.Square) {
+                console.error("Square SDK not loaded");
+                return;
+            }
+
+            const payments = Square.payments(CONFIG.applicationId, CONFIG.locationId);
+
+            // 1. Google Pay
+            try {
+                const paymentRequest = payments.paymentRequest({
+                    countryCode: 'US',
+                    currencyCode: 'USD',
+                    total: {
+                        amount: product.amount,
+                        label: product.name,
+                        pending: false
+                    }
+                });
+
+                const googlePay = await payments.googlePay(paymentRequest);
+                await googlePay.attach('#google-pay-button');
+
+                googlePay.addEventListener('cardentrycanceled', () => {
+                    // Handle cancellation
+                });
+            } catch (e) {
+                console.warn("Google Pay not available:", e);
+                document.getElementById('google-pay-button').style.display = 'none';
+            }
+
+            // 2. Card Payment
+            const card = await payments.card();
+            await card.attach('#card-container');
+
+            document.getElementById('payment-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await handleCardPayment(card);
+            });
+        }
+
+        async function handleCardPayment(card) {
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            try {
+                const result = await card.tokenize();
+                if (result.status !== 'OK') throw new Error(result.errors[0].message);
+                await processPayment(result.token);
+            } catch (e) {
+                showError(e.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Complete Pre-Order';
+            }
+        }
+
+        async function processPayment(token) {
+            try {
+                // Determine endpoint
+                const endpoint = checkoutType === 'royalty' 
+                    ? '/api/payments/preorder/royalty' 
+                    : '/api/payments/preorder/founding-member';
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sourceId: token,
+                        email: document.getElementById('email').value,
+                        name: document.getElementById('name').value,
+                        cardType: selectedCard // For royalty only
+                    })
+                });
+
+                const data = await response.json();
+                if (!data.success) throw new Error(data.error || 'Payment failed');
+
+                // Success
+                document.getElementById('checkout-form').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                document.getElementById('transaction-id').textContent = data.transactionId;
+
+            } catch (e) {
+                showError(e.message);
+                const btn = document.getElementById('submit-btn');
+                btn.disabled = false;
+                btn.textContent = 'Complete Pre-Order';
+            }
+        }
+
+        function showError(msg) {
+            const el = document.getElementById('error-message');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+name: Create Square Payment Link
+on:
+  workflow_dispatch:
+    inputs:
+      link_name:
+        description: 'Payment link name'
+        required: true
+        default: 'FoundingMember'
+      amount_cents:
+        description: 'Amount in cents'
+        required: true
+        default: '1499'
+      description:
+        description: 'Description'
+        required: true
+        default: 'YouAndINotAI Founding Member - $14.99/mo locked for life'
+
+jobs:
+  create-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Square Payment Link
+        env:
+          SQUARE_ACCESS_TOKEN: ${{ secrets.SQUARE_ACCESS_TOKEN }}
+          SQUARE_LOCATION_ID: ${{ secrets.SQUARE_LOCATION_ID }}
+        run: |
+          # Create payment link via Square API
+          RESPONSE=$(curl -s -X POST "https://connect.squareup.com/v2/online-checkout/payment-links" \
+            -H "Square-Version: 2024-01-18" \
+            -H "Authorization: Bearer $SQUARE_ACCESS_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "idempotency_key": "'$(uuidgen)'",
+              "quick_pay": {
+                "name": "${{ github.event.inputs.description }}",
+                "price_money": {
+                  "amount": ${{ github.event.inputs.amount_cents }},
+                  "currency": "USD"
+                },
+                "location_id": "'$SQUARE_LOCATION_ID'"
+              },
+              "checkout_options": {
+                "allow_tipping": false,
+                "redirect_url": "https://youandinotai.com/thank-you",
+                "ask_for_shipping_address": false
+              },
+              "pre_populated_data": {
+                "buyer_email": ""
+              }
+            }')
+
+          echo "=== SQUARE API RESPONSE ==="
+          echo "$RESPONSE" | jq .
+
+          # Extract the payment link URL
+          LINK_URL=$(echo "$RESPONSE" | jq -r '.payment_link.url // "ERROR: No URL returned"')
+          echo ""
+          echo "============================================"
+          echo "PAYMENT LINK CREATED:"
+          echo "$LINK_URL"
+          echo "============================================"
+
+          # Also output the long URL for reference
+          LONG_URL=$(echo "$RESPONSE" | jq -r '.payment_link.long_url // "N/A"')
+          echo "Long URL: $LONG_URL"

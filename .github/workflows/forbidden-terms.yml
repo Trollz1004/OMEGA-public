@@ -1,0 +1,40 @@
+name: Forbidden Terms Check
+
+on:
+  push:
+    branches: [main, master, 'compliance/**']
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  scan-forbidden-terms:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for deprecated imports in source code
+        run: |
+          echo "Scanning source code for deprecated import patterns..."
+          # Only check for actual require/import of deprecated modules
+          # Documentation references in .md files are allowed
+          
+          MATCHES=$(grep -rn --include="*.js" --include="*.ts" --include="*.tsx" --include="*.jsx"             -E "(require|import).*gospel-revenue.js" .             --exclude-dir=node_modules             --exclude-dir=.git             --exclude-dir=archived             --exclude-dir=.claude             --exclude-dir=docs || true)
+
+          if [ -n "$MATCHES" ]; then
+            echo "::error::Found deprecated gospel-revenue imports in source files:"
+            echo "$MATCHES"
+            exit 1
+          fi
+
+          echo "No deprecated imports found in source code"
+
+      - name: Verify legal documents exist
+        run: |
+          REQUIRED_FILES="TERMS_OF_SERVICE.md PRIVACY_POLICY.md"
+          for file in $REQUIRED_FILES; do
+            if [ ! -f "$file" ]; then
+              echo "::error::Missing required legal document: $file"
+              exit 1
+            fi
+          done
+          echo "All required legal documents present"

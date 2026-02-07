@@ -1,0 +1,411 @@
+name: Deploy to Production
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - 'v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+'
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  ENVIRONMENT: production
+
+jobs:
+  validate-release:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      is-prerelease: ${{ steps.version.outputs.is-prerelease }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [[ "$VERSION" == *"-rc"* ]]; then
+            echo "is-prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "is-prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Verify tag matches package version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          TAG_VERSION=${{ steps.version.outputs.version }}
+          if [ "$PACKAGE_VERSION" != "$TAG_VERSION" ]; then
+            echo "Error: Tag version ($TAG_VERSION) does not match package.json version ($PACKAGE_VERSION)"
+            exit 1
+          fi
+
+  build-and-push:
+    name: Build and Push Production Images
+    runs-on: ubuntu-latest
+    needs: [validate-release]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to Docker Hub (for rate limiting)
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest,enable=${{ needs.validate-release.outputs.is-prerelease == 'false' }}
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/api/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/api:${{ needs.validate-release.outputs.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/api:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_ENV=production
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            VCS_REF=${{ github.sha }}
+            VERSION=${{ needs.validate-release.outputs.version }}
+
+      - name: Build and push Web image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/web/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/web:${{ needs.validate-release.outputs.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/web:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_ENV=production
+            NEXT_PUBLIC_API_URL=${{ secrets.PRODUCTION_API_URL }}
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            VCS_REF=${{ github.sha }}
+            VERSION=${{ needs.validate-release.outputs.version }}
+
+      - name: Build and push Worker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/worker/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/worker:${{ needs.validate-release.outputs.version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/worker:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NODE_ENV=production
+
+  deploy-production:
+    name: Deploy to Production (Blue-Green)
+    runs-on: ubuntu-latest
+    needs: [validate-release, build-and-push]
+    environment:
+      name: production
+      url: https://dating-platform.com
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          aws eks update-kubeconfig --name ${{ secrets.EKS_PRODUCTION_CLUSTER }} --region ${{ secrets.AWS_REGION }}
+
+      - name: Determine deployment slot
+        id: slot
+        run: |
+          CURRENT_SLOT=$(kubectl get service production-router -n dating-platform -o jsonpath='{.spec.selector.slot}' 2>/dev/null || echo "blue")
+          if [ "$CURRENT_SLOT" == "blue" ]; then
+            echo "target=green" >> $GITHUB_OUTPUT
+            echo "current=blue" >> $GITHUB_OUTPUT
+          else
+            echo "target=blue" >> $GITHUB_OUTPUT
+            echo "current=green" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to target slot
+        run: |
+          VERSION=${{ needs.validate-release.outputs.version }}
+          TARGET_SLOT=${{ steps.slot.outputs.target }}
+
+          # Update image tags in deployment manifests
+          sed -i "s|IMAGE_TAG|${VERSION}|g" k8s/production/*.yaml
+          sed -i "s|DEPLOYMENT_SLOT|${TARGET_SLOT}|g" k8s/production/*.yaml
+
+          # Apply Kubernetes manifests to target slot
+          kubectl apply -f k8s/production/namespace.yaml
+          kubectl apply -f k8s/production/configmap.yaml
+          kubectl apply -f k8s/production/${TARGET_SLOT}/
+
+          # Wait for rollout to complete
+          kubectl rollout status deployment/api-${TARGET_SLOT} -n dating-platform --timeout=600s
+          kubectl rollout status deployment/web-${TARGET_SLOT} -n dating-platform --timeout=600s
+          kubectl rollout status deployment/worker-${TARGET_SLOT} -n dating-platform --timeout=600s
+
+      - name: Run database migrations
+        run: |
+          kubectl exec -n dating-platform deploy/api-${{ steps.slot.outputs.target }} -- npm run db:migrate
+
+      - name: Run pre-switch health checks
+        run: |
+          TARGET_SLOT=${{ steps.slot.outputs.target }}
+
+          # Get internal service endpoint
+          INTERNAL_URL=$(kubectl get service api-${TARGET_SLOT}-internal -n dating-platform -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+          # Run health checks
+          for i in {1..10}; do
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://${INTERNAL_URL}/health)
+            if [ "$HTTP_STATUS" == "200" ]; then
+              echo "Health check passed"
+              break
+            fi
+            echo "Health check attempt $i failed, retrying..."
+            sleep 10
+          done
+
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "Health checks failed, aborting deployment"
+            exit 1
+          fi
+
+      - name: Switch traffic to new deployment
+        run: |
+          TARGET_SLOT=${{ steps.slot.outputs.target }}
+
+          # Update service selector to point to new slot
+          kubectl patch service production-router -n dating-platform \
+            -p "{\"spec\":{\"selector\":{\"slot\":\"${TARGET_SLOT}\"}}}"
+
+          echo "Traffic switched to ${TARGET_SLOT} slot"
+
+      - name: Verify traffic switch
+        run: |
+          sleep 30
+
+          # Verify production endpoint
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://api.dating-platform.com/health)
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "Production health check failed after traffic switch!"
+            exit 1
+          fi
+
+          echo "Production deployment verified successfully"
+
+  smoke-tests:
+    name: Run Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./tests/smoke
+
+      - name: Run smoke tests
+        run: npm run test:smoke
+        working-directory: ./tests/smoke
+        env:
+          BASE_URL: https://dating-platform.com
+          API_URL: https://api.dating-platform.com
+          SMOKE_TEST_USER: ${{ secrets.SMOKE_TEST_USER }}
+          SMOKE_TEST_PASSWORD: ${{ secrets.SMOKE_TEST_PASSWORD }}
+
+      - name: Upload smoke test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-test-results
+          path: ./tests/smoke/results/
+          retention-days: 30
+
+  rollback:
+    name: Rollback on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy-production, smoke-tests]
+    if: failure()
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          aws eks update-kubeconfig --name ${{ secrets.EKS_PRODUCTION_CLUSTER }} --region ${{ secrets.AWS_REGION }}
+
+      - name: Rollback to previous slot
+        run: |
+          # Get current slot and rollback to previous
+          CURRENT_SLOT=$(kubectl get service production-router -n dating-platform -o jsonpath='{.spec.selector.slot}')
+          if [ "$CURRENT_SLOT" == "blue" ]; then
+            ROLLBACK_SLOT="green"
+          else
+            ROLLBACK_SLOT="blue"
+          fi
+
+          # Switch traffic back to previous slot
+          kubectl patch service production-router -n dating-platform \
+            -p "{\"spec\":{\"selector\":{\"slot\":\"${ROLLBACK_SLOT}\"}}}"
+
+          echo "Rolled back to ${ROLLBACK_SLOT} slot"
+
+      - name: Send rollback notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: 'failure'
+          channel: '#incidents'
+          fields: repo,message,commit,author,action
+          text: |
+            :rotating_light: PRODUCTION ROLLBACK EXECUTED
+            Version: ${{ needs.validate-release.outputs.version }}
+            Commit: ${{ github.sha }}
+            Reason: Smoke tests or deployment failed
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [validate-release, smoke-tests]
+    if: success()
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get previous tag
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          if [ -n "$PREVIOUS_TAG" ]; then
+            CHANGELOG=$(git log ${PREVIOUS_TAG}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges -20)
+          fi
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.validate-release.outputs.version }}
+          name: Release v${{ needs.validate-release.outputs.version }}
+          body: |
+            ## What's Changed
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ## Docker Images
+
+            - `ghcr.io/${{ github.repository }}/api:${{ needs.validate-release.outputs.version }}`
+            - `ghcr.io/${{ github.repository }}/web:${{ needs.validate-release.outputs.version }}`
+            - `ghcr.io/${{ github.repository }}/worker:${{ needs.validate-release.outputs.version }}`
+
+            ## Deployment
+
+            Deployed to production via blue-green deployment.
+          draft: false
+          prerelease: ${{ needs.validate-release.outputs.is-prerelease == 'true' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify-production:
+    name: Send Production Notification
+    runs-on: ubuntu-latest
+    needs: [validate-release, smoke-tests, create-release]
+    if: always()
+    steps:
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ needs.smoke-tests.result }}
+          channel: '#deployments'
+          fields: repo,message,commit,author,action
+          text: |
+            Production deployment ${{ needs.smoke-tests.result }}
+            Version: v${{ needs.validate-release.outputs.version }}
+            Commit: ${{ github.sha }}
+            Release: https://github.com/${{ github.repository }}/releases/tag/v${{ needs.validate-release.outputs.version }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()

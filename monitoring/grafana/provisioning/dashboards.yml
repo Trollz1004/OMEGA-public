@@ -1,0 +1,57 @@
+# Grafana Dashboard Provisioning Configuration
+# This file configures automatic dashboard provisioning from the filesystem
+
+apiVersion: 1
+
+providers:
+  # Main dating platform dashboards
+  - name: 'Dating Platform'
+    orgId: 1
+    folder: 'Dating Platform'
+    folderUid: 'dating-platform'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/dating-platform
+      foldersFromFilesStructure: true
+
+  # Infrastructure dashboards
+  - name: 'Infrastructure'
+    orgId: 1
+    folder: 'Infrastructure'
+    folderUid: 'infrastructure'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 60
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/infrastructure
+      foldersFromFilesStructure: false
+
+  # AI Services dashboards
+  - name: 'AI Services'
+    orgId: 1
+    folder: 'AI Services'
+    folderUid: 'ai-services'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/ai-services
+      foldersFromFilesStructure: false
+
+  # Alert dashboards
+  - name: 'Alerts'
+    orgId: 1
+    folder: 'Alerts'
+    folderUid: 'alerts'
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 60
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/alerts
+      foldersFromFilesStructure: false

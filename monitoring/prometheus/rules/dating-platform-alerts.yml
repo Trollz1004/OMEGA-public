@@ -1,0 +1,318 @@
+# Prometheus Alert Rules for Dating Platform
+# Production alerting configuration
+
+groups:
+  # API and Backend Alerts
+  - name: api_alerts
+    interval: 30s
+    rules:
+      - alert: HighRequestLatency
+        expr: histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="backend-api"}[5m])) by (le, endpoint)) > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: backend
+        annotations:
+          summary: "High API latency detected"
+          description: "95th percentile latency for {{ $labels.endpoint }} is {{ $value }}s (threshold: 2s)"
+          runbook_url: "https://docs.dating-platform.com/runbooks/high-latency"
+
+      - alert: CriticalRequestLatency
+        expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job="backend-api"}[5m])) by (le, endpoint)) > 5
+        for: 2m
+        labels:
+          severity: critical
+          service: backend
+        annotations:
+          summary: "Critical API latency detected"
+          description: "99th percentile latency for {{ $labels.endpoint }} is {{ $value }}s (threshold: 5s)"
+
+      - alert: HighErrorRate
+        expr: sum(rate(http_requests_total{job="backend-api", status=~"5.."}[5m])) / sum(rate(http_requests_total{job="backend-api"}[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: critical
+          service: backend
+        annotations:
+          summary: "High error rate in backend API"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+      - alert: APIDown
+        expr: up{job="backend-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: backend
+        annotations:
+          summary: "Backend API is down"
+          description: "Backend API has been unreachable for more than 1 minute"
+
+  # AI Services Alerts
+  - name: ai_service_alerts
+    interval: 30s
+    rules:
+      - alert: OllamaHighLatency
+        expr: histogram_quantile(0.95, sum(rate(ollama_request_duration_seconds_bucket[5m])) by (le, model)) > 10
+        for: 5m
+        labels:
+          severity: warning
+          service: ollama
+        annotations:
+          summary: "Ollama response time is high"
+          description: "95th percentile response time for model {{ $labels.model }} is {{ $value }}s"
+
+      - alert: OllamaDown
+        expr: up{job="ollama"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          service: ollama
+        annotations:
+          summary: "Ollama LLM service is down"
+          description: "Ollama has been unreachable for more than 2 minutes"
+
+      - alert: AIServiceHighLatency
+        expr: histogram_quantile(0.95, sum(rate(ai_inference_duration_seconds_bucket[5m])) by (le, service)) > 5
+        for: 5m
+        labels:
+          severity: warning
+          service: ai
+        annotations:
+          summary: "AI service latency is high"
+          description: "{{ $labels.service }} 95th percentile latency is {{ $value }}s"
+
+      - alert: MatchmakingQueueBacklog
+        expr: matchmaking_queue_size > 1000
+        for: 10m
+        labels:
+          severity: warning
+          service: ai-matchmaking
+        annotations:
+          summary: "Matchmaking queue backlog growing"
+          description: "Queue size is {{ $value }} (threshold: 1000)"
+
+  # Database Alerts
+  - name: database_alerts
+    interval: 30s
+    rules:
+      - alert: PostgresConnectionPoolExhausted
+        expr: pg_stat_activity_count / pg_settings_max_connections > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          service: postgresql
+        annotations:
+          summary: "PostgreSQL connection pool nearly exhausted"
+          description: "{{ $value | humanizePercentage }} of connections in use"
+
+      - alert: PostgresHighConnections
+        expr: pg_stat_activity_count / pg_settings_max_connections > 0.7
+        for: 10m
+        labels:
+          severity: warning
+          service: postgresql
+        annotations:
+          summary: "PostgreSQL connections are high"
+          description: "{{ $value | humanizePercentage }} of max connections in use"
+
+      - alert: PostgresDown
+        expr: up{job="postgresql"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: postgresql
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL exporter has been unreachable for more than 1 minute"
+
+      - alert: PostgresSlowQueries
+        expr: rate(pg_stat_statements_seconds_total[5m]) / rate(pg_stat_statements_calls_total[5m]) > 1
+        for: 10m
+        labels:
+          severity: warning
+          service: postgresql
+        annotations:
+          summary: "Slow PostgreSQL queries detected"
+          description: "Average query time is {{ $value }}s"
+
+      - alert: PostgresReplicationLag
+        expr: pg_replication_lag_seconds > 30
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+        annotations:
+          summary: "PostgreSQL replication lag detected"
+          description: "Replication lag is {{ $value }}s"
+
+  # Redis Alerts
+  - name: redis_alerts
+    interval: 30s
+    rules:
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: redis
+        annotations:
+          summary: "Redis is down"
+          description: "Redis has been unreachable for more than 1 minute"
+
+      - alert: RedisLowCacheHitRate
+        expr: redis_keyspace_hits_total / (redis_keyspace_hits_total + redis_keyspace_misses_total) < 0.8
+        for: 15m
+        labels:
+          severity: warning
+          service: redis
+        annotations:
+          summary: "Redis cache hit rate is low"
+          description: "Cache hit rate is {{ $value | humanizePercentage }}"
+
+      - alert: RedisHighMemoryUsage
+        expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          service: redis
+        annotations:
+          summary: "Redis memory usage is critical"
+          description: "Memory usage is {{ $value | humanizePercentage }}"
+
+      - alert: RedisConnectedClientsHigh
+        expr: redis_connected_clients > 500
+        for: 5m
+        labels:
+          severity: warning
+          service: redis
+        annotations:
+          summary: "Redis has many connected clients"
+          description: "{{ $value }} clients connected"
+
+  # System Resource Alerts
+  - name: system_alerts
+    interval: 30s
+    rules:
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 10m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value }}%"
+
+      - alert: CriticalCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 95
+        for: 5m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Critical CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value }}%"
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 10m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value }}%"
+
+      - alert: CriticalMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 95
+        for: 5m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Critical memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value }}%"
+
+      - alert: DiskSpaceRunningLow
+        expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) * 100 < 20
+        for: 15m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "Disk space running low on {{ $labels.instance }}"
+          description: "{{ $labels.mountpoint }} has {{ $value }}% free space"
+
+      - alert: DiskSpaceCritical
+        expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) * 100 < 10
+        for: 5m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Disk space critical on {{ $labels.instance }}"
+          description: "{{ $labels.mountpoint }} has only {{ $value }}% free space"
+
+  # Application-Specific Alerts
+  - name: application_alerts
+    interval: 60s
+    rules:
+      - alert: NoActiveUsers
+        expr: active_users_total == 0
+        for: 15m
+        labels:
+          severity: warning
+          service: application
+        annotations:
+          summary: "No active users detected"
+          description: "Zero active users for 15 minutes - possible issue or maintenance window"
+
+      - alert: MatchmakingFailureRate
+        expr: rate(matchmaking_failures_total[5m]) / rate(matchmaking_attempts_total[5m]) > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          service: matchmaking
+        annotations:
+          summary: "High matchmaking failure rate"
+          description: "{{ $value | humanizePercentage }} of matchmaking attempts failing"
+
+      - alert: MessageDeliveryDelayed
+        expr: histogram_quantile(0.95, sum(rate(message_delivery_duration_seconds_bucket[5m])) by (le)) > 5
+        for: 10m
+        labels:
+          severity: warning
+          service: messaging
+        annotations:
+          summary: "Message delivery is delayed"
+          description: "95th percentile message delivery time is {{ $value }}s"
+
+      - alert: PaymentProcessingErrors
+        expr: rate(payment_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+          service: payments
+        annotations:
+          summary: "Payment processing errors detected"
+          description: "{{ $value }} payment errors per second"
+
+      - alert: UserRegistrationSpike
+        expr: rate(user_registrations_total[5m]) > 10
+        for: 5m
+        labels:
+          severity: info
+          service: application
+        annotations:
+          summary: "Unusual spike in user registrations"
+          description: "{{ $value }} registrations per second - may indicate bot activity"
+
+      - alert: ContentModerationBacklog
+        expr: moderation_queue_size > 500
+        for: 30m
+        labels:
+          severity: warning
+          service: moderation
+        annotations:
+          summary: "Content moderation queue growing"
+          description: "{{ $value }} items in moderation queue"

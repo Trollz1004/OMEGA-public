@@ -1,0 +1,129 @@
+# Grafana Datasource Provisioning Configuration
+# This file configures data sources for Grafana
+
+apiVersion: 1
+
+# Delete data sources that are no longer defined in config
+deleteDatasources:
+  - name: Prometheus-Old
+    orgId: 1
+
+datasources:
+  # Primary Prometheus instance
+  - name: Prometheus
+    type: prometheus
+    uid: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: false
+    jsonData:
+      # Time interval for scraping
+      timeInterval: "15s"
+      # Query timeout
+      queryTimeout: "60s"
+      # HTTP method for queries
+      httpMethod: POST
+      # Manage alerts via this datasource
+      manageAlerts: true
+      # Prometheus type (Prometheus, Cortex, Mimir, Thanos)
+      prometheusType: Prometheus
+      # Prometheus version
+      prometheusVersion: "2.45.0"
+      # Enable exemplars
+      exemplarTraceIdDestinations:
+        - name: traceID
+          datasourceUid: tempo
+      # Incremental querying for better performance
+      incrementalQuerying: true
+      incrementalQueryOverlapWindow: "10m"
+
+  # Alertmanager for alert management
+  - name: Alertmanager
+    type: alertmanager
+    uid: alertmanager
+    access: proxy
+    url: http://alertmanager:9093
+    editable: false
+    jsonData:
+      implementation: prometheus
+      handleGrafanaManagedAlerts: false
+
+  # Loki for log aggregation (optional but recommended)
+  - name: Loki
+    type: loki
+    uid: loki
+    access: proxy
+    url: http://loki:3100
+    editable: false
+    jsonData:
+      maxLines: 1000
+      derivedFields:
+        - datasourceUid: tempo
+          matcherRegex: "traceID=(\\w+)"
+          name: TraceID
+          url: "$${__value.raw}"
+
+  # Tempo for distributed tracing (optional but recommended)
+  - name: Tempo
+    type: tempo
+    uid: tempo
+    access: proxy
+    url: http://tempo:3200
+    editable: false
+    jsonData:
+      httpMethod: GET
+      tracesToLogs:
+        datasourceUid: loki
+        filterByTraceID: true
+        filterBySpanID: false
+        mapTagNamesEnabled: true
+        tags:
+          - key: service.name
+            value: service
+      tracesToMetrics:
+        datasourceUid: prometheus
+        tags:
+          - key: service.name
+            value: service
+        queries:
+          - name: Request rate
+            query: sum(rate(http_requests_total{service="$${__tags.service}"}[5m]))
+      serviceMap:
+        datasourceUid: prometheus
+      nodeGraph:
+        enabled: true
+      lokiSearch:
+        datasourceUid: loki
+
+  # PostgreSQL for direct database queries (read-only)
+  - name: PostgreSQL
+    type: postgres
+    uid: postgresql
+    access: proxy
+    url: postgres:5432
+    database: dating_platform
+    user: grafana_reader
+    editable: false
+    secureJsonData:
+      password: ${GRAFANA_POSTGRES_PASSWORD}
+    jsonData:
+      sslmode: require
+      maxOpenConns: 5
+      maxIdleConns: 2
+      connMaxLifetime: 14400
+      postgresVersion: 1500
+      timescaledb: false
+
+  # Redis for cache metrics
+  - name: Redis
+    type: redis-datasource
+    uid: redis
+    access: proxy
+    url: redis:6379
+    editable: false
+    jsonData:
+      client: standalone
+      poolSize: 5
+    secureJsonData:
+      password: ${GRAFANA_REDIS_PASSWORD}

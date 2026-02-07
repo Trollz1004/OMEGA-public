@@ -1,0 +1,476 @@
+2026-01-02T00:13:32.913Z [DEBUG] [SLOW OPERATION DETECTED] fs.readFileSync (11.7ms)
+2026-01-02T00:13:33.182Z [DEBUG] Using bash path: "C:\Program Files\Git\bin\bash.exe"
+2026-01-02T00:13:33.403Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-01-02T00:13:33.403Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-01-02T00:13:33.403Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2026-01-02T00:13:33.438Z [DEBUG] LSP server manager initialized successfully
+2026-01-02T00:13:33.439Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2026-01-02T00:13:33.442Z [DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+2026-01-02T00:13:33.469Z [DEBUG] Stats cache does not exist, returning empty cache
+2026-01-02T00:13:33.470Z [DEBUG] Stats cache empty, processing all historical data in background
+2026-01-02T00:13:33.508Z [DEBUG] Loading skills from: managed=C:\ProgramData\ClaudeCode\.claude\skills, user=C:\Users\joshl\.claude\skills, project=[]
+2026-01-02T00:13:33.513Z [DEBUG] Passes: Cache stale, returning cached data and refreshing in background
+2026-01-02T00:13:34.661Z [DEBUG] [SLOW OPERATION DETECTED] execSyncWithDefaults_DEPRECATED (1106.1ms): tasklist | findstr /I "Code.exe Cursor.exe Windsurf.exe idea64.exe pycharm64.exe webstorm64.exe phps
+2026-01-02T00:13:34.671Z [DEBUG] installed_plugins.json doesn't exist, returning empty V2 object
+2026-01-02T00:13:34.786Z [DEBUG] Creating shell snapshot for bash (C:\Program Files\Git\bin\bash.exe)
+2026-01-02T00:13:34.787Z [DEBUG] Looking for shell config file: C:\Users\joshl\.bashrc
+2026-01-02T00:13:34.787Z [DEBUG] Shell config file not found: C:\Users\joshl\.bashrc, creating snapshot with Claude Code defaults only
+2026-01-02T00:13:34.787Z [DEBUG] Snapshots directory: C:\Users\joshl\.claude\shell-snapshots
+2026-01-02T00:13:34.839Z [DEBUG] Creating snapshot at: C:\Users\joshl\.claude\shell-snapshots\snapshot-bash-1767312814787-a4aume.sh
+2026-01-02T00:13:34.839Z [DEBUG] Shell binary exists: true
+2026-01-02T00:13:34.839Z [DEBUG] Execution timeout: 10000ms
+2026-01-02T00:13:34.861Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude\todos\f9e5041e-ce2a-470d-a9b7-66cdf424ffcf-agent-f9e5041e-ce2a-470d-a9b7-66cdf424ffcf.json.tmp.3776.1767312814861
+2026-01-02T00:13:34.872Z [DEBUG] [SLOW OPERATION DETECTED] fs.writeFileSync (10.0ms)
+2026-01-02T00:13:34.872Z [DEBUG] Temp file written successfully, size: 2 bytes
+2026-01-02T00:13:34.872Z [DEBUG] Renaming C:\Users\joshl\.claude\todos\f9e5041e-ce2a-470d-a9b7-66cdf424ffcf-agent-f9e5041e-ce2a-470d-a9b7-66cdf424ffcf.json.tmp.3776.1767312814861 to C:\Users\joshl\.claude\todos\f9e5041e-ce2a-470d-a9b7-66cdf424ffcf-agent-f9e5041e-ce2a-470d-a9b7-66cdf424ffcf.json
+2026-01-02T00:13:34.874Z [DEBUG] File C:\Users\joshl\.claude\todos\f9e5041e-ce2a-470d-a9b7-66cdf424ffcf-agent-f9e5041e-ce2a-470d-a9b7-66cdf424ffcf.json written atomically
+2026-01-02T00:13:34.889Z [DEBUG] getPluginSkills: Processing 0 enabled plugins
+2026-01-02T00:13:34.889Z [DEBUG] Total plugin skills loaded: 0
+2026-01-02T00:13:34.889Z [DEBUG] Total plugin commands loaded: 0
+2026-01-02T00:13:34.890Z [DEBUG] Registered 0 hooks from 0 plugins
+2026-01-02T00:13:35.778Z [DEBUG] Total plugin agents loaded: 0
+2026-01-02T00:13:35.778Z [DEBUG] Loaded 0 unique skills (managed: 0, user: 0, project: 0, legacy commands: 0)
+2026-01-02T00:13:35.790Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills
+2026-01-02T00:13:36.086Z [ERROR] Error: Error: getaddrinfo ENOTFOUND api.anthropic.com
+    at m3A.from (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:43:63985)
+    at VU.<anonymous> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:57:10016)
+    at VU.emit (node:events:508:28)
+    at VU.emit (node:domain:489:12)
+    at bw1.<computed> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:56:3432)
+    at ClientRequest.emit (node:events:508:28)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at fzA.request (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:59:2130)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async UT2 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1845:3609)
+2026-01-02T00:13:36.187Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312816187
+2026-01-02T00:13:36.188Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:36.193Z [DEBUG] Temp file written successfully, size: 55004 bytes
+2026-01-02T00:13:36.194Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:36.194Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312816187 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:36.195Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:36.207Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312816207
+2026-01-02T00:13:36.207Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:36.210Z [DEBUG] Temp file written successfully, size: 55004 bytes
+2026-01-02T00:13:36.210Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:36.210Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312816207 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:36.212Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:36.227Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312816227
+2026-01-02T00:13:36.228Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:36.233Z [DEBUG] Temp file written successfully, size: 55005 bytes
+2026-01-02T00:13:36.233Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:36.233Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312816227 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:36.235Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:36.245Z [DEBUG] Failed to fetch and cache passes eligibility
+2026-01-02T00:13:36.245Z [ERROR] Error: Error: getaddrinfo ENOTFOUND api.anthropic.com
+    at m3A.from (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:43:63985)
+    at VU.<anonymous> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:57:10016)
+    at VU.emit (node:events:508:28)
+    at VU.emit (node:domain:489:12)
+    at bw1.<computed> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:56:3432)
+    at ClientRequest.emit (node:events:520:35)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at fzA.request (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:59:2130)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async L17 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2614:9071)
+    at async file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2614:9964
+2026-01-02T00:13:36.255Z [DEBUG] Git remote URL: null
+2026-01-02T00:13:36.255Z [DEBUG] No git remote URL found
+2026-01-02T00:13:36.255Z [DEBUG] Not in a GitHub repository, skipping path mapping update
+2026-01-02T00:13:36.268Z [DEBUG] Ripgrep first use test: PASSED (mode=builtin, path=C:\Users\joshl\AppData\Roaming\npm\node_modules\@anthropic-ai\claude-code\vendor\ripgrep\x64-win32\rg.exe)
+2026-01-02T00:13:36.458Z [DEBUG] Shell snapshot created successfully (342 bytes)
+2026-01-02T00:13:36.482Z [DEBUG] Stats cache saved successfully (lastComputedDate: 2026-01-01)
+2026-01-02T00:13:36.482Z [DEBUG] Stats cache updated with 1 sessions
+2026-01-02T00:13:36.501Z [DEBUG] rg error (signal=null, code=2, stderr: rg: C:\WINDOWS\system32\LogFiles\WMI\RtBackup: Access is denied. (os error 5)
+), 14946 results
+2026-01-02T00:13:37.107Z [ERROR] Failed to update marketplace cache: Network error while updating marketplace. Please check your internet connection.
+
+Original error: fatal: unable to access 'https://github.com/anthropics/claude-plugins-official.git/': Could not resolve host: github.com
+2026-01-02T00:13:37.301Z [DEBUG] [SLOW OPERATION DETECTED] fs.rmSync (193.7ms)
+2026-01-02T00:13:37.658Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312817658
+2026-01-02T00:13:37.658Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:37.665Z [DEBUG] [SLOW OPERATION DETECTED] fs.writeFileSync (6.4ms)
+2026-01-02T00:13:37.665Z [DEBUG] Temp file written successfully, size: 55374 bytes
+2026-01-02T00:13:37.665Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:37.665Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312817658 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:37.667Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:38.132Z [DEBUG] Failed to fetch Grove notice config: Error: getaddrinfo ENOTFOUND api.anthropic.com
+2026-01-02T00:13:38.159Z [DEBUG] Passes: Cache stale, returning cached data and refreshing in background
+2026-01-02T00:13:38.391Z [DEBUG] Initialized versioned plugins system with 0 plugins
+2026-01-02T00:13:38.452Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312818452
+2026-01-02T00:13:38.452Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:38.457Z [DEBUG] Temp file written successfully, size: 55374 bytes
+2026-01-02T00:13:38.457Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:38.457Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312818452 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:38.459Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:38.497Z [DEBUG] Getting matching hook commands for SessionStart with query: startup
+2026-01-02T00:13:38.497Z [DEBUG] Found 0 hook matchers in settings
+2026-01-02T00:13:38.497Z [DEBUG] Matched 0 unique hooks for query "startup" (0 before deduplication)
+2026-01-02T00:13:38.600Z [DEBUG] [SLOW OPERATION DETECTED] fs.readdirSync (10.1ms)
+2026-01-02T00:13:38.600Z [DEBUG] [SLOW OPERATION DETECTED] fs.isDirEmptySync (10.2ms)
+2026-01-02T00:13:38.624Z [DEBUG] [SLOW OPERATION DETECTED] fs.readdirSync (9.3ms)
+2026-01-02T00:13:38.624Z [DEBUG] [SLOW OPERATION DETECTED] fs.isDirEmptySync (9.4ms)
+2026-01-02T00:13:38.735Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312818735
+2026-01-02T00:13:38.735Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:38.744Z [DEBUG] [SLOW OPERATION DETECTED] fs.writeFileSync (8.7ms)
+2026-01-02T00:13:38.744Z [DEBUG] Temp file written successfully, size: 55301 bytes
+2026-01-02T00:13:38.744Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:38.744Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312818735 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:38.746Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:38.773Z [DEBUG] Official marketplace auto-install skipped: already_attempted
+2026-01-02T00:13:38.775Z [DEBUG] performStartupChecks called
+2026-01-02T00:13:38.777Z [DEBUG] Starting background plugin installations
+2026-01-02T00:13:38.777Z [DEBUG] performBackgroundPluginInstallations called
+2026-01-02T00:13:38.821Z [DEBUG] AutoUpdaterWrapper: Installation type: npm-global
+2026-01-02T00:13:38.849Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312818849
+2026-01-02T00:13:38.849Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:38.855Z [DEBUG] [SLOW OPERATION DETECTED] fs.writeFileSync (5.4ms)
+2026-01-02T00:13:38.855Z [DEBUG] Temp file written successfully, size: 55302 bytes
+2026-01-02T00:13:38.855Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:38.855Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312818849 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:38.858Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:38.867Z [DEBUG] Setting installation status: 0 marketplaces, 0 installable plugins, 0 uninstallable plugins
+2026-01-02T00:13:38.868Z [DEBUG] Loaded plugins - Enabled: 0, Disabled: 0, Commands: 0, Agents: 0, Errors: 0
+2026-01-02T00:13:38.884Z [ERROR] Error: Error: getaddrinfo ENOTFOUND api.anthropic.com
+    at m3A.from (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:43:63985)
+    at VU.<anonymous> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:57:10016)
+    at VU.emit (node:events:520:35)
+    at VU.emit (node:domain:489:12)
+    at bw1.<computed> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:56:3432)
+    at ClientRequest.emit (node:events:520:35)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at fzA.request (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:59:2130)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async _D8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:237:4030)
+    at async G (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:116:26721)
+    at async TD8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:237:4255)
+    at async SD8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:237:5201)
+2026-01-02T00:13:38.897Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312818897
+2026-01-02T00:13:38.897Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:38.902Z [DEBUG] Temp file written successfully, size: 55264 bytes
+2026-01-02T00:13:38.903Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:38.903Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312818897 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:38.905Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:38.907Z [DEBUG] Failed to fetch and cache passes eligibility
+2026-01-02T00:13:38.907Z [ERROR] Error: Error: getaddrinfo ENOTFOUND api.anthropic.com
+    at m3A.from (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:43:63985)
+    at VU.<anonymous> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:57:10016)
+    at VU.emit (node:events:508:28)
+    at VU.emit (node:domain:489:12)
+    at bw1.<computed> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:56:3432)
+    at ClientRequest.emit (node:events:520:35)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at fzA.request (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:59:2130)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async L17 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2614:9071)
+    at async file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2614:9964
+2026-01-02T00:13:38.940Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312818940
+2026-01-02T00:13:38.940Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:38.945Z [DEBUG] Temp file written successfully, size: 55264 bytes
+2026-01-02T00:13:38.945Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:38.945Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312818940 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:38.947Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:38.961Z [DEBUG] [SLOW OPERATION DETECTED] fs.readFileSync (7.0ms)
+2026-01-02T00:13:38.988Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312818988
+2026-01-02T00:13:38.988Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:38.993Z [DEBUG] Temp file written successfully, size: 55337 bytes
+2026-01-02T00:13:38.993Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:38.993Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312818988 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:38.995Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:39.178Z [DEBUG] Skills and commands included in Skill tool:
+2026-01-02T00:13:39.226Z [DEBUG] Getting matching hook commands for SubagentStart with query: Explore
+2026-01-02T00:13:39.227Z [DEBUG] Found 0 hook matchers in settings
+2026-01-02T00:13:39.227Z [DEBUG] Matched 0 unique hooks for query "Explore" (0 before deduplication)
+2026-01-02T00:13:39.282Z [DEBUG] Getting matching hook commands for SubagentStart with query: Plan
+2026-01-02T00:13:39.282Z [DEBUG] Found 0 hook matchers in settings
+2026-01-02T00:13:39.282Z [DEBUG] Matched 0 unique hooks for query "Plan" (0 before deduplication)
+2026-01-02T00:13:39.313Z [ERROR] Failed to refresh marketplace claude-plugins-official: Failed to clone marketplace repository: SSH authentication failed. Please ensure your SSH keys are configured for GitHub, or use an HTTPS URL instead.
+
+Original error: Cloning into 'C:\Users\joshl\.claude\plugins\marketplaces\claude-plugins-official'...
+ssh: Could not resolve hostname github.com: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+2026-01-02T00:13:39.313Z [WARN] Plugin autoupdate: failed to refresh marketplace claude-plugins-official: Failed to refresh marketplace 'claude-plugins-official': Failed to clone marketplace repository: SSH authentication failed. Please ensure your SSH keys are configured for GitHub, or use an HTTPS URL instead.
+
+Original error: Cloning into 'C:\Users\joshl\.claude\plugins\marketplaces\claude-plugins-official'...
+ssh: Could not resolve hostname github.com: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+2026-01-02T00:13:39.314Z [DEBUG] Plugin autoupdate: checking installed plugins
+2026-01-02T00:13:39.471Z [DEBUG] [SLOW OPERATION DETECTED] fs.mkdirSync (7.3ms)
+2026-01-02T00:13:39.496Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312819496
+2026-01-02T00:13:39.497Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:39.502Z [DEBUG] Temp file written successfully, size: 55518 bytes
+2026-01-02T00:13:39.503Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:39.503Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312819496 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:39.505Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:39.670Z [DEBUG] Writing to temp file: C:\Users\joshl\.claude.json.tmp.3776.1767312819670
+2026-01-02T00:13:39.671Z [DEBUG] Preserving file permissions: 100666
+2026-01-02T00:13:39.675Z [DEBUG] Temp file written successfully, size: 55519 bytes
+2026-01-02T00:13:39.675Z [DEBUG] Applied original permissions to temp file
+2026-01-02T00:13:39.676Z [DEBUG] Renaming C:\Users\joshl\.claude.json.tmp.3776.1767312819670 to C:\Users\joshl\.claude.json
+2026-01-02T00:13:39.677Z [DEBUG] File C:\Users\joshl\.claude.json written atomically
+2026-01-02T00:13:39.820Z [ERROR] Error streaming, falling back to non-streaming mode: Connection error.
+2026-01-02T00:13:39.845Z [ERROR] Error streaming, falling back to non-streaming mode: Connection error.
+2026-01-02T00:13:39.872Z [ERROR] Error: Error: Connection error.
+    at OT.makeRequest (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:857:4542)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1007:4211
+    at async file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1007:2262
+    at async gT3 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1006:16947)
+    at async bmB (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1007:2195)
+    at async RyA (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2161:52)
+    at async _yA (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2161:261)
+    at async py2 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2171:530)
+2026-01-02T00:13:40.815Z [ERROR] Error: Error: 1P event logging: 54 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:13:40.816Z [ERROR] Error: Error: {"stack":"Error: Failed to export 54 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 54 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:13:44.420Z [DEBUG] npm view failed with code 1
+2026-01-02T00:13:44.420Z [DEBUG] npm stderr: (empty)
+2026-01-02T00:13:46.509Z [ERROR] Error: Error: 1P event logging: 12 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:13:46.510Z [ERROR] Error: Error: {"stack":"Error: Failed to export 12 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 12 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:13:53.537Z [ERROR] Error: Error: 1P event logging: 6 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:13:53.537Z [ERROR] Error: Error: {"stack":"Error: Failed to export 6 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 6 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:02.143Z [ERROR] Error: Error: 1P event logging: 6 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:02.144Z [ERROR] Error: Error: {"stack":"Error: Failed to export 6 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 6 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:20.330Z [DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+2026-01-02T00:14:20.331Z [DEBUG] LSP Diagnostics: Checking registry - 0 pending
+2026-01-02T00:14:20.333Z [DEBUG] Hooks: Found 0 total hooks in registry
+2026-01-02T00:14:20.333Z [DEBUG] Hooks: checkForNewResponses returning 0 responses
+2026-01-02T00:14:20.608Z [ERROR] Error: Error: 1P event logging: 7 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:20.609Z [ERROR] Error: Error: {"stack":"Error: Failed to export 7 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 7 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:20.929Z [DEBUG] Getting matching hook commands for UserPromptSubmit with query: undefined
+2026-01-02T00:14:20.929Z [DEBUG] Found 0 hook matchers in settings
+2026-01-02T00:14:20.929Z [DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+2026-01-02T00:14:20.939Z [DEBUG] FileHistory: Added snapshot for 2c456668-9259-449e-81be-7e1a5b7f06c8, tracking 0 files
+2026-01-02T00:14:21.044Z [DEBUG] [SLOW OPERATION DETECTED] fs.readdirSync (11.3ms)
+2026-01-02T00:14:21.044Z [DEBUG] [SLOW OPERATION DETECTED] fs.isDirEmptySync (11.4ms)
+2026-01-02T00:14:21.147Z [DEBUG] Total plugin output styles loaded: 0
+2026-01-02T00:14:21.176Z [ERROR] Error streaming, falling back to non-streaming mode: Connection error.
+2026-01-02T00:14:21.347Z [ERROR] Error streaming, falling back to non-streaming mode: Connection error.
+2026-01-02T00:14:25.845Z [ERROR] Error: Error: 1P event logging: 38 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:25.846Z [ERROR] Error: Error: {"stack":"Error: Failed to export 38 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 38 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:34.463Z [ERROR] Error: Error: 1P event logging: 5 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:34.464Z [ERROR] Error: Error: {"stack":"Error: Failed to export 5 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 5 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:43.138Z [ERROR] Error: Error: 1P event logging: 5 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:43.138Z [ERROR] Error: Error: {"stack":"Error: Failed to export 5 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 5 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:53.296Z [ERROR] Error: Error: 1P event logging: 3 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:53.297Z [ERROR] Error: Error: {"stack":"Error: Failed to export 3 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 3 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:59.474Z [ERROR] Error: Error: 1P event logging: 8 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:14:59.475Z [ERROR] Error: Error: {"stack":"Error: Failed to export 8 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 8 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:15:29.940Z [ERROR] Error: Error: 1P event logging: 3 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:15:29.941Z [ERROR] Error: Error: {"stack":"Error: Failed to export 3 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 3 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:15:35.041Z [ERROR] Error: Error: 1P event logging: 8 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:15:35.042Z [ERROR] Error: Error: {"stack":"Error: Failed to export 8 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 8 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:05.089Z [ERROR] Error: Error: 1P event logging: 8 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:05.089Z [ERROR] Error: Error: {"stack":"Error: Failed to export 8 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 8 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:12.696Z [ERROR] Error: Error: 1P event logging: 3 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:12.697Z [ERROR] Error: Error: {"stack":"Error: Failed to export 3 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 3 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:33.124Z [ERROR] Error in non-streaming fallback: Connection error.
+2026-01-02T00:16:33.126Z [ERROR] Connection error details: code=ENOTFOUND, message=getaddrinfo ENOTFOUND api.anthropic.com
+2026-01-02T00:16:33.126Z [ERROR] Error: Error: Connection error.
+    at OT.makeRequest (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:857:4542)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async SW9.d71.model (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4593:6345)
+    at async d71 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1346:19540)
+    at async SW9 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4593:6499)
+    at async file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4591:3799
+    at async d00 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1007:2037)
+    at async zHA (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4591:3769)
+    at async ew (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2207:3569)
+    at async B4A (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2712:12663)
+2026-01-02T00:16:33.369Z [DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+2026-01-02T00:16:33.369Z [DEBUG] Found 0 hook matchers in settings
+2026-01-02T00:16:33.369Z [DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+2026-01-02T00:16:38.123Z [ERROR] Error: Error: 1P event logging: 6 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:38.123Z [ERROR] Error: Error: {"stack":"Error: Failed to export 6 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 6 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:45.228Z [ERROR] Error: Error: 1P event logging: 5 events failed to export
+    at yp1.queueFailedEvents (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:39698)
+    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38794)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:45.229Z [ERROR] Error: Error: {"stack":"Error: Failed to export 5 events\n    at yp1.doExport (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:38885)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)","message":"Failed to export 5 events","name":"Error"}
+    at rK0.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1683:34862)
+    at sm1.error (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:33126)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64151
+    at ty8 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:239:64697)
+    at file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:240:20245
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-01-02T00:16:46.703Z [ERROR] Error in non-streaming fallback: Connection error.
+2026-01-02T00:16:46.704Z [ERROR] Connection error details: code=ENOTFOUND, message=getaddrinfo ENOTFOUND api.anthropic.com
+2026-01-02T00:16:46.704Z [ERROR] Error: Error: Connection error.
+    at OT.makeRequest (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:857:4542)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async SW9.d71.model (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4593:6345)
+    at async d71 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1346:19540)
+    at async SW9 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4593:6499)
+    at async file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4591:3799
+    at async d00 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:1007:2037)
+    at async zHA (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4591:3769)
+    at async ew (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2207:3569)
+    at async B4A (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:2712:12663)
+2026-01-02T00:16:46.929Z [DEBUG] Getting matching hook commands for SubagentStop with query: undefined
+2026-01-02T00:16:46.929Z [DEBUG] Found 0 hook matchers in settings
+2026-01-02T00:16:46.929Z [DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+2026-01-02T00:16:48.150Z [ERROR] Error: Error: getaddrinfo ENOTFOUND http-intake.logs.us5.datadoghq.com
+    at m3A.from (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:43:63985)
+    at VU.<anonymous> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:57:10016)
+    at VU.emit (node:events:520:35)
+    at VU.emit (node:domain:489:12)
+    at bw1.<computed> (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:56:3432)
+    at ClientRequest.emit (node:events:520:35)
+    at ClientRequest.emit (node:domain:489:12)
+    at emitErrorEvent (node:_http_client:108:11)
+    at TLSSocket.socketErrorListener (node:_http_client:575:5)
+    at TLSSocket.emit (node:events:508:28)
+    at fzA.request (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:59:2130)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async zR0 (file:///C:/Users/joshl/AppData/Roaming/npm/node_modules/@anthropic-ai/claude-code/cli.js:4868:4053)
