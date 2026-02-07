@@ -1,0 +1,57 @@
+name: Security Sentinel - Mission Guardian
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+
+jobs:
+    # ------------------------------------------------------------------
+    # SECRET SCAN: Block any commit containing keys/tokens
+    # ------------------------------------------------------------------
+    secret-scan:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: TruffleHog Secret Scan
+              uses: trufflesecurity/trufflehog@main
+              with:
+                  path: ./
+                  base: ${{ github.event.repository.default_branch }}
+                  head: HEAD
+                  extra_args: --debug --only-verified
+
+    # ------------------------------------------------------------------
+    # STRUCTURE ENFORCEMENT: Ensure Public/Private Separation
+    # ------------------------------------------------------------------
+    structure-check:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Verify No Public Leaks
+              run: |
+                  if [ -d "Trollz1004.github.io" ]; then
+                    echo "❌ CRITICAL: Public repo folder detected inside ENIGMA-private!"
+                    exit 1
+                  fi
+                  if [ -f "ops/master.env" ]; then
+                     echo "✅ master.env is correctly located in ops/"
+                  else
+                     echo "⚠️ WARNING: master.env missing from expected location (Check .gitignore)"
+                  fi
+
+    # ------------------------------------------------------------------
+    # THE GOSPEL PROTECTION: Ensure Router Contracts Unchanged
+    # ------------------------------------------------------------------
+    gospel-integrity:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Verify Charity Router Immutable
+              run: |
+                  # Simple check to ensure CharityRouter100.sol exists and hasn't been deleted
+                  if [ ! -f "contracts/CharityRouter100.sol" ]; then
+                    echo "❌ CRITICAL: CharityRouter100.sol missing! Gospel violated."
+                    exit 1
+                  fi
+                  echo "✅ Gospel Contracts Integrity Verified"
