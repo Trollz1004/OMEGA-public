@@ -1,0 +1,51 @@
+name: Deploy Mission Critical Stack
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    # ------------------------------------------------------------------
+    # Frontend: Deploy to Cloudflare Pages (youandinotai.pages.dev)
+    # ------------------------------------------------------------------
+    deploy-frontend:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            deployments: write
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Deploy to Cloudflare Pages
+              uses: cloudflare/pages-action@v1
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  projectName: youandinotai
+                  directory: frontend/out
+                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+                  branch: main
+                  workingDirectory: frontend
+                  command: npm run build
+
+    # ------------------------------------------------------------------
+    # Backend: Deploy to T5500 via SSH (youandinotai.com)
+    # ------------------------------------------------------------------
+    deploy-backend:
+        runs-on: ubuntu-latest
+        needs: deploy-frontend
+        if: success()
+        steps:
+            - name: Deploy to T5500 Production Node
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.T5500_HOST }} # 192.168.0.15 (Must use Tunnel/PubIP if external)
+                  username: ${{ secrets.T5500_USER }} # aicol
+                  key: ${{ secrets.T5500_SSH_KEY }}
+                  port: 22
+                  script: |
+                      echo "🚀 Deploying backend on T5500..."
+                      cd C:/ANTIGRAVITY-MISSION-CORE/ENIGMA-private
+                      git pull origin main
+                      cd ops/docker
+                      docker compose up -d --build backend
+                      echo "✅ Deployment Complete"
